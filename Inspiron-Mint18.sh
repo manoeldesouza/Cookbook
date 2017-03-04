@@ -24,11 +24,11 @@ sudo add-apt-repository -y ppa:teejee2008/ppa
 
 
 echo "Updating & upgrading..."
-sudo apt-get -qq update && sudo apt-get -qq upgrade -y
+sudo apt-get update && sudo apt-get upgrade -y
 
 
 echo "Installing System Utilities..."
-sudo apt-get -qq install -y gparted mc git build-essential linux-headers-generic linux-headers-$(uname -r) dkms fuse exfat-fuse exfat-utils ubuntu-restricted-extras software-properties-common smartmontools hddtemp tasksel htop lynx-cur terminator gddrescue
+sudo apt-get install -y gparted mc git build-essential linux-headers-generic linux-headers-$(uname -r) dkms fuse exfat-fuse exfat-utils ubuntu-restricted-extras software-properties-common smartmontools hddtemp tasksel htop lynx-cur terminator gddrescue htop
 
 
 echo "Adding Powerline..."
@@ -41,7 +41,7 @@ sudo fc-cache -vf
 sudo mv 10-powerline-symbols.conf /etc/fonts/conf.d/
 echo '
 
-export TERM=”screen-256color”
+#export TERM=”screen-256color”
 
 powerline-daemon -q
 POWERLINE_BASH_CONTINUATION=1
@@ -56,51 +56,51 @@ sudo dpkg-reconfigure console-setup
 
 
 echo "Installing Archive Utilities..."
-sudo apt-get -qq install -y unace p7zip-rar sharutils rar arj lunzip lzip cabextract p7zip unrar xz-utils
+sudo apt-get install -y unace p7zip-rar sharutils rar arj lunzip lzip cabextract p7zip unrar xz-utils
 
 
 echo "Installing Networking Utilities..."
-sudo apt-get -qq install -y aircrack-ng dsniff driftnet etherwake wireshark iptraf
+sudo apt-get install -y aircrack-ng dsniff driftnet etherwake wireshark iptraf
 
 
 echo "Installing Server tools..."
-sudo apt-get -qq install -y openssh-server nfs-common 
+sudo apt-get install -y openssh-server nfs-common 
 
 
 echo "Installing Virtualization Utilities..."
-sudo apt-get -qq install -y qemu-system qemu-kvm libvirt-bin ubuntu-vm-builder bridge-utils python-spice-client-gtk libswitch-perl qemu-utils virt-viewer gir1.2-spice-client-gtk-3.0 virtualbox virtualbox-qt virt-manager 
+sudo apt-get install -y qemu-system qemu-kvm libvirt-bin ubuntu-vm-builder bridge-utils python-spice-client-gtk libswitch-perl qemu-utils virt-viewer gir1.2-spice-client-gtk-3.0 virtualbox virtualbox-qt virt-manager 
 sudo adduser `id -un` libvirtd
 sudo adduser `id -un` kvm
 sudo adduser `id -un` vboxusers
 
 
 echo "Installing Desktop applications..."
-sudo apt-get -qq install -y skype dropbox geany inkscape stellarium cheese shutter rhythmbox scribus blender darktable gnome-music shotwell digikam dia cups-pdf evolution chromium-browser gimp tomahawk musique wine playonlinux
+sudo apt-get install -y skype dropbox geany inkscape stellarium cheese shutter rhythmbox scribus blender darktable gnome-music shotwell digikam dia cups-pdf evolution chromium-browser gimp tomahawk musique wine playonlinux
 
 
 echo "Installing Desktop utilities..."
-sudo apt-get -qq install -y conky-all conky conky-manager docky mint-backgrounds-* ttf-mscorefonts-installer 
+sudo apt-get install -y conky-all conky conky-manager docky mint-backgrounds-* ttf-mscorefonts-installer 
 
 
 echo "Installing Games..."
-sudo apt-get -qq install -y gbrainy gnome-games stella gnome-chess
+sudo apt-get install -y gbrainy gnome-games stella gnome-chess
 
 
 echo "Installing Icon & GTK themes..."
-sudo apt-get -qq install -y numix-icon-theme numix-icon-theme-circle numix-icon-theme-square numix-gtk-theme moka-icon-theme faba-icon-theme faba-mono-icons paper-icon-theme paper-gtk-theme paper-cursor-theme faenza-icon-theme faience-icon-theme arc-theme arc-icons
+sudo apt-get install -y numix-icon-theme numix-icon-theme-circle numix-icon-theme-square numix-gtk-theme moka-icon-theme faba-icon-theme faba-mono-icons paper-icon-theme paper-gtk-theme paper-cursor-theme faenza-icon-theme faience-icon-theme arc-theme arc-icons
 
 
 echo "Installing Programming Utilities..."
-sudo apt-get -qq install -y perl-doc libdbd-mysql-perl mysql-workbench sublime-text bluefish brackets 
+sudo apt-get install -y perl-doc libdbd-mysql-perl mysql-workbench sublime-text bluefish brackets 
 
 
 echo "Python Utilities..."
-sudo apt-get -qq install -y python-pip python-dev ipython ipython-doc ipython-notebook ipython3 ipython3-notebook python-setuptools python3-setuptools python-virtualenv python3-virtualenv
+sudo apt-get install -y python-pip python-dev ipython ipython-doc ipython-notebook ipython3 ipython3-notebook python-setuptools python3-setuptools python-virtualenv python3-virtualenv
 
 
 echo "Installing standard Data Science tools..."
-sudo apt-get -qq install -y r-base r-base-dev r-cran-littler r-base-core octave scilab weka weka-doc 
-sudo apt-get -qq install -y python-numpy python-numpy-doc python-numpy-dbg python3-numpy python3-numpydoc python3-numpy-dbg python-bs4 python3-bs4 python-sklearn python3-sklearn python-sklearn-doc python-sklearn-pandas python3-sklearn-pandas python-pandas python3-pandas python-django python3-django
+sudo apt-get install -y r-base r-base-dev r-cran-littler r-base-core octave scilab weka weka-doc 
+sudo apt-get install -y python-numpy python-numpy-doc python-numpy-dbg python3-numpy python3-numpydoc python3-numpy-dbg python-bs4 python3-bs4 python-sklearn python3-sklearn python-sklearn-doc python-sklearn-pandas python3-sklearn-pandas python-pandas python3-pandas python-django python3-django
 
 sudo echo "deb http://cran.rstudio.com/bin/linux/ubuntu xenial/" | sudo tee -a /etc/apt/sources.list
 sudo gpg --keyserver keyserver.ubuntu.com --recv-key E084DAB9
@@ -131,7 +131,7 @@ conda install pandas-datareader quandl
 
 
 echo "Installing I3 window manager..."
-sudo apt-get -qq install -y i3 i3-wm dmenu j4-dmenu-desktop i3status i3lock
+sudo apt-get install -y i3 i3-wm dmenu j4-dmenu-desktop i3status i3lock
 
 
 #sudo apt-get install -y tlp
