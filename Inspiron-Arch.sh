@@ -110,7 +110,10 @@ umount -R /mnt
 reboot
 
 
+
+cd ~/Downloads
 git clone https://github.com/erikdubois/archcinnamon
+git clone https://github.com/manoeldesouza/Cookbook
 
 pacman -S alsa-utils pulseaudio
 pacman -S xorg-server xorg-xinit xorg-utils xorg-server-utils mesa
