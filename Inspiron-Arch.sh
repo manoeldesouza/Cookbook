@@ -1,7 +1,5 @@
 
 
-
-
 loadkeys br-abnt2
 systemctl start dhcpd
 
@@ -149,6 +147,4 @@ sudo pacman -S a52dec faac faad2 flac jasper lame libdca libdv libmad libmpeg2 l
 
 
 sudo pacman -S firefox flashplugin chromium audacious clementine conky darktable dconf-editor filezilla galculator geary gimp gksu glances inkscape inxi lm_sensors lsb-release meld mlocate mpv net-tools notify-osd numlockx openshot pinta plank polkit-gnome redshift ristretto sane screenfetch scrot shotwell simple-scan simplescreenrecorder smplayer sysstat terminator thunar transmission-cli transmission-gtk tumbler variety vnstat unclutter libreoffice
-
-
 

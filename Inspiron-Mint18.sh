@@ -6,7 +6,6 @@ echo "
       E-Mail: msouza.rj@gmail.com      
      Version: 1.0.0
         Date: 01-Mar-2017
-
 "
 
 cd ~/Downloads
@@ -40,14 +39,11 @@ sudo mv PowerlineSymbols.otf /usr/share/fonts/X11/misc
 sudo fc-cache -vf
 sudo mv 10-powerline-symbols.conf /etc/fonts/conf.d/
 echo '
-
 #export TERM=”screen-256color”
-
 powerline-daemon -q
 POWERLINE_BASH_CONTINUATION=1
 POWERLINE_BASH_SELECT=1
 . /usr/local/lib/python2.7/dist-packages/powerline/bindings/bash/powerline.sh
-
 ' >> ~/.bashrc
 
 
@@ -79,7 +75,7 @@ sudo apt-get install -y skype dropbox geany inkscape stellarium cheese shutter r
 
 
 echo "Installing Desktop utilities..."
-sudo apt-get install -y conky-all conky conky-manager docky mint-backgrounds-* ttf-mscorefonts-installer 
+sudo apt-get install -y conky-all conky conky-manager docky mint-backgrounds-* ttf-mscorefonts-installer pitivi
 
 
 echo "Installing Games..."
@@ -108,8 +104,8 @@ sudo gpg -a --export E084DAB9 | sudo apt-key add -
 sudo apt-get update
 sudo apt-get install r-base r-base-dev
 wget https://download1.rstudio.org/rstudio-1.0.136-amd64.deb
-sudo gdebi -n rstudio-1.0.44-amd64.deb
-rm rstudio-1.0.44-amd64.deb
+sudo gdebi -n rstudio-1.0.136-amd64.deb
+rm rstudio-1.0.136-amd64.deb
 
 
 #pip install -U scikit-learn
@@ -138,7 +134,6 @@ sudo apt-get install -y i3 i3-wm dmenu j4-dmenu-desktop i3status i3lock
 #sudo tlp start
 
 echo '
-
 Additional activities:
  - Setup weather applet
  - Configure workspace hover
@@ -151,8 +146,6 @@ Additional activities:
 
 echo "Installation complete. Rebooting..."
 sudo reboot
-
-
 
 
 
