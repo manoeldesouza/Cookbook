@@ -71,11 +71,11 @@ sudo adduser `id -un` vboxusers
 
 
 echo "Installing Desktop applications..."
-sudo apt-get install -y skype dropbox geany inkscape stellarium cheese shutter rhythmbox scribus blender darktable gnome-music shotwell digikam dia cups-pdf evolution chromium-browser gimp tomahawk musique wine playonlinux
+sudo apt-get install -y skype dropbox geany inkscape stellarium cheese shutter rhythmbox scribus blender darktable gnome-music shotwell digikam dia cups-pdf evolution chromium-browser gimp tomahawk musique wine playonlinux pitivi
 
 
 echo "Installing Desktop utilities..."
-sudo apt-get install -y conky-all conky conky-manager docky mint-backgrounds-* ttf-mscorefonts-installer pitivi
+sudo apt-get install -y conky-all conky conky-manager docky mint-backgrounds-* ttf-mscorefonts-installer
 
 
 echo "Installing Games..."
@@ -102,7 +102,7 @@ sudo echo "deb http://cran.rstudio.com/bin/linux/ubuntu xenial/" | sudo tee -a /
 sudo gpg --keyserver keyserver.ubuntu.com --recv-key E084DAB9
 sudo gpg -a --export E084DAB9 | sudo apt-key add -
 sudo apt-get update
-sudo apt-get install r-base r-base-dev
+sudo apt-get install -y r-base r-base-dev
 wget https://download1.rstudio.org/rstudio-1.0.136-amd64.deb
 sudo gdebi -n rstudio-1.0.136-amd64.deb
 rm rstudio-1.0.136-amd64.deb
@@ -146,7 +146,4 @@ Additional activities:
 
 echo "Installation complete. Rebooting..."
 sudo reboot
-
-
-
 
