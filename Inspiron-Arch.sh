@@ -1,67 +1,73 @@
+#!/bin/bash
+
+echo "
+      Script: Linux Mint 18 Recipe (for Inspiron 13 - 7353)
+      Author: Manoel de Souza
+      E-Mail: msouza.rj@gmail.com      
+     Version: 1.0.0
+        Date: 01-Mar-2017
+"
+
+cd ~/Downloads
+sudo echo "Enter root password to start:"
 
 
-loadkeys br-abnt2
-systemctl start dhcpd
-
+echo "1.1 Preparation:"
+#loadkeys br-abnt2
+#systemctl start dhcpd
 Pacman -Sy terminus-font git reflector
 setfont ter-v16n
-
-Pacman -Sy reflector
+Pacman -S reflector
 nano /etc/pacman.d/mirrorlist
 
 
-# DISK
+echo "1.2 Disk setup:"
 
 ls /sys/firmware/efi
 ls /sys/firmware/efi/efivars
-
 gdisk /dev/sda
-# o (clear)
-# n 
-# GUID EF00
+ # o (clear)
+ # n 
+ # GUID EF00
 gdisk -l /dev/sda
 
 mkfs.fat -F32 -n BOOT /dev/sda1
-mkfs.ext4 /dev/sda2
-mkswap -L  swap /dev/sda3 && swapon /dev/sda3
+mkfs.ext4 /dev/sda3
+mkswap -L  swap /dev/sda2 && swapon /dev/sda2
 swapon -s
 free -h
 
-mount /mnt /dev/sda2
+mount /mnt /dev/sda3
 mkdir /mnt/boot
 mount /mnt/boot /dev/sda1
 
-pacstrap /mnt base base-devel
 
+echo "1.3 System installation:"
+pacstrap /mnt base base-devel
 genfstab -U /mnt >> /mnt/etc/fstab
 nano /mnt/etc/fstab
 # /dev/sda2  none swap defaults 0 0
+arch-chroot /mnt
 
-achroot /mnt
 
-
-# BOOTLOADER (SYSTEMD)
-
+echo "1.4 Install bootloader (Systemd):"
 bootctl install
-
 cd /boot
-ls -l
-
 cd loader
 nano loader.conf
-# default arch
-# timeout 4
-# editor 0
+ # default arch
+ # timeout 4
+ # editor 0
 
 cd entries
 nano arch.conf
-# title Arch Linux
-# linux /vmlinuz-linux
-# initrd /intramfs-linux.img
-# options root=/dev/sda2 rw
+ # title Arch Linux
+ # linux /vmlinuz-linux
+ # initrd /intramfs-linux.img
+ # options root=/dev/sda2 rw
 
 
-# BOOTLOADER (GRUB)
+echo "1.4 Install bootloader (grub - Not used):"
 pacman -S grub os-prober efibootmgr
 mkdir /boot/efi
 mount /dev/sda2 /boot/efi
@@ -71,11 +77,9 @@ grub-install --efi-directory=/boot/efi /dev/sda
 grub-mkconfig -o /boot/grub/grub.cfg
 
 
-
-
+echo "1.5 System setup:"
 nano /etc/locale.gen
 locale-gen
-
 echo LANG=pt_BR.UTF-8 > /etc/locale.conf
 export LANG=pt_BR.UTF-8
 
@@ -85,59 +89,61 @@ nano /etc/modprobe.d/nobeep.conf
 
 mkinitcpio -p linux
 
+
+echo "1.6 Timezone setup:"
+
 timedatectl set-ntp true
 ln -sf /usr/share/zoneinfo/Brazil/East /etc/localtime
 hwclock --systohc --utc
 date
 
 
+echo "1.7 Network basic setup:"
 echo Inspiron > /etc/hostname
-
 nano /etc/hosts
 # 127.0.1.1     localhost.localdomain   Inspiron
 
-pacman –S net-tools
-systemctl enable dhcpd
-systemctl start dhcpd
-systemctl status dhcpd
-passwd
- 
+#pacman –S net-tools
+#systemctl enable dhcpd
+#systemctl start dhcpd
+#systemctl status dhcpd
+
+echo "1.8 Root Password:"
+passwd 
 
 exit 
 umount -R /mnt
 reboot
 
 # -----------------------------------------------------------------------
-
-mkdir ~/Downloads
+# SYSTEM BOOTING FROM MAIN DISK
+# -----------------------------------------------------------------------
 
 useradd -m -g users -G wheel -s /bin/bash manoel
 passwd manoel
-
 EDITOR=nano visudo 
 # %wheel ALL
-
 
 cp /etc/netctl/examples/ethernet-dhcp /etc/netctl
 nano /etc/netctl/ethernet-dhcp
 netctl list
 netctl start ethernet-dhcp
 netctl enable ethernet-dhcp
-
-
 pacman -Sy dialog wpa_supplicant
 wifi-menu -o
+
 
 mkdir ~/Downloads
 cd ~/Downloads
 git clone https://github.com/erikdubois/archcinnamon
+git clone https://github.com/erikdubois/Aureola
 git clone https://github.com/manoeldesouza/Cookbook
 
 sudo pacman -S terminus-font
 nano /etc/vconsole.conf
 # FONT=ter-v16n
 
-sudo pacman -S git wget git reflector mc vim lynx base-devel fakeroot jshon expac grep sed curl tmux
+sudo pacman -S git wget git reflector mc vim lynx base-devel fakeroot jshon expac grep sed curl tmux bash-completion
 sudo reflector -c BR
 sudo nano /etc/pacman.d/mirrorlist
 
@@ -155,10 +161,10 @@ pacman -S xorg-xrandr
 
 
 sudo pacman -S pulseaudio pulseaudio-alsa pavucontrol alsa-utils alsa-plugins alsa-lib alsa-firmware
-sudo pacman -S gst-plugins-good gst-plugins-bad gst-plugins-base gst-plugins-ugly gstreamer
+
 sudo pacman -S xorg-server xorg-utils xorg-xinit xorg-twm xorg-xclock xorg-server-utils mesa xterm
 sudo pacman -S xf86-video-intel 
-
+sudo pacman -S xf86-input-synaptics
 sudo pacman -S cinnamon nemo-fileroller network-manager-applet
 
 
@@ -191,9 +197,26 @@ sudo pacman -S cups cups-pdf ghostscript gsfonts libcups hplip system-config-pri
 sudo systemctl enable org.cups.cupsd.service
 sudo systemctl start org.cups.cupsd.service
 
-sudo pacman -S gnome-terminal gedit gnome-system-monitor gnome-font-viewer gnome-screenshot galculator geary gparted net-tools gpick grsync hardinfo hddtemp hexchat htop nemo nemo-share nemo-fileroller noto-fonts
-sudo pacman -S a52dec faac faad2 flac jasper lame libdca libdv libmad libmpeg2 libtheora libvorbis libxv wavpack x264 xvidcore gstreamer0.10-plugins
+sudo nano /etc/pacman.conf
+[archlinuxfr]
+SigLevel = Never
+Server = http://repo.archlinux.fr/$arch
+sudo pacman -Sy yaourt
+
+setxkbmap -model pc104 -layout us_intl
+echo '
+setxkbmap -model pc104 -layout us_intl
+' >> nano ~/.bashrc
 
 
-sudo pacman -S firefox flashplugin chromium audacious clementine conky darktable dconf-editor filezilla galculator geary gimp gksu glances inkscape inxi lm_sensors lsb-release meld mlocate mpv net-tools notify-osd numlockx openshot pinta plank polkit-gnome redshift ristretto sane screenfetch scrot shotwell simple-scan simplescreenrecorder smplayer sysstat terminator thunar transmission-cli transmission-gtk tumbler variety vnstat unclutter libreoffice
+sudo pacman -S gnome-terminal gedit gnome-system-monitor gnome-font-viewer gnome-screenshot galculator geary gparted net-tools gpick grsync hardinfo hddtemp hexchat htop nemo nemo-share nemo-fileroller noto-fonts gthumb evince gvfs-afc gvfs-goa gvfs-google gvfs-gphoto2 gvfs-mtp gvfs-nfs gvfs-smb
+sudo pacman -S a52dec faac faad2 flac jasper lame libdca libdv libmad libmpeg2 libtheora libvorbis libxv wavpack x264 xvidcore 
+sudo pacman -S gst-plugins-good gst-plugins-bad gst-plugins-base gst-plugins-ugly gstreamer
 
+sudo pacman -S firefox flashplugin chromium clementine conky darktable dconf-editor filezilla galculator geany gimp gksu glances inkscape inxi lm_sensors lsb-release meld mlocate mpv notify-osd numlockx openshot plank polkit-gnome redshift ristretto sane screenfetch scrot shotwell simple-scan simplescreenrecorder smplayer sysstat terminator transmission-cli transmission-gtk tumbler variety vnstat unclutter libreoffice vlc rhythmbox dropbox smbclient samba
+
+sudo pacman -S faenza-icon-theme faience-icon-theme arc-icon-theme arc-gtk-theme 
+
+yaourt -S ttf-ms-fonts 
+yaourt -S mint-x-theme mint-y-theme moka-icon-theme faba-icon-theme 
+yaourt -S pamac-aur
