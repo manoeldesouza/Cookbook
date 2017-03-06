@@ -9,6 +9,9 @@ setfont ter-v16n
 Pacman -Sy reflector
 nano /etc/pacman.d/mirrorlist
 
+
+# DISK
+
 ls /sys/firmware/efi
 ls /sys/firmware/efi/efivars
 
@@ -35,6 +38,10 @@ nano /mnt/etc/fstab
 # /dev/sda2  none swap defaults 0 0
 
 achroot /mnt
+
+
+# BOOTLOADER (SYSTEMD)
+
 bootctl install
 
 cd /boot
@@ -52,6 +59,19 @@ nano arch.conf
 # linux /vmlinuz-linux
 # initrd /intramfs-linux.img
 # options root=/dev/sda2 rw
+
+
+# BOOTLOADER (GRUB)
+pacman -S grub os-prober efibootmgr
+mkdir /boot/efi
+mount /dev/sda2 /boot/efi
+
+grub-install /dev/sda
+grub-install --efi-directory=/boot/efi /dev/sda
+grub-mkconfig -o /boot/grub/grub.cfg
+
+
+
 
 nano /etc/locale.gen
 locale-gen
@@ -81,13 +101,6 @@ systemctl enable dhcpd
 systemctl start dhcpd
 systemctl status dhcpd
 passwd
-
-
-useradd -m -g users -G wheel -s /bin/bash manoel
-passwd manoel
-
-EDITOR=nano visudo 
-# %wheel ALL
  
 
 exit 
@@ -97,6 +110,13 @@ reboot
 # -----------------------------------------------------------------------
 
 mkdir ~/Downloads
+
+useradd -m -g users -G wheel -s /bin/bash manoel
+passwd manoel
+
+EDITOR=nano visudo 
+# %wheel ALL
+
 
 cp /etc/netctl/examples/ethernet-dhcp /etc/netctl
 nano /etc/netctl/ethernet-dhcp
@@ -117,7 +137,7 @@ sudo pacman -S terminus-font
 nano /etc/vconsole.conf
 # FONT=ter-v16n
 
-sudo pacman -S git wget git reflector mc vim lynx base-devel fakeroot jshon expac grep sed curl
+sudo pacman -S git wget git reflector mc vim lynx base-devel fakeroot jshon expac grep sed curl tmux
 sudo reflector -c BR
 sudo nano /etc/pacman.d/mirrorlist
 
@@ -125,12 +145,41 @@ sudo nano /etc/pacman.d/mirrorlist
 
 sudo pacman -S p7zip unace unrar zip unzip sharutils uudeview arj cabextract file-roller
 
+
+
+pacman -S alsa-utils pulseaudio pulseaudio-bluetooth
+pacman -S xorg-server xorg-xinit xorg-server-utils xorg-twm xorg-xclock xterm
+pacman -S mesa
+#pacman -S nvidia nvidia-libgl xorg-xrandr nvidia-settings
+pacman -S xorg-xrandr
+
+
 sudo pacman -S pulseaudio pulseaudio-alsa pavucontrol alsa-utils alsa-plugins alsa-lib alsa-firmware
 sudo pacman -S gst-plugins-good gst-plugins-bad gst-plugins-base gst-plugins-ugly gstreamer
 sudo pacman -S xorg-server xorg-utils xorg-xinit xorg-twm xorg-xclock xorg-server-utils mesa xterm
 sudo pacman -S xf86-video-intel 
 
 sudo pacman -S cinnamon nemo-fileroller network-manager-applet
+
+
+sudo pacman -S wpa_supplicant wireless_tools networkmanager network-manager-applet gnome-keyring
+sudo systemctl enable NetworkManager.service
+sudo systemctl enable wpa_supplicant.service
+sudo systemctl disable dhcpcd.service
+sudo systemctl stop dhcpcd.service
+gpasswd -a `id -un` network
+sudo systemctl start wpa_supplicant.service
+sudo systemctl start NetworkManager.service
+sudo systemctl enable bluetooth.service
+sudo systemctl start bluetooth.service
+
+
+sudo pacman -S iw wpa_supplicant dialog network-manager-applet networkmanager
+sudo pacman -S xf86-input-libinput
+sudo systemctl enable NetworkManager.service
+sudo systemctl enable gdm.service
+
+
 sudo systemctl start NetworkManager
 sudo systemctl enable NetworkManager
 
