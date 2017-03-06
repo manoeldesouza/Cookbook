@@ -217,6 +217,16 @@ sudo pacman -S firefox flashplugin chromium clementine conky darktable dconf-edi
 
 sudo pacman -S faenza-icon-theme faience-icon-theme arc-icon-theme arc-gtk-theme 
 
+sudo pacman -S virtualbox
+sudo pacman -S virtualbox-guest-iso
+sudo gpasswd -a $USER vboxusers
+sudo modprobe vboxdrv
+sudo modprobe -a vboxnetadp vboxnetflt
+sudo nano /etc/modules-load.d/virtualbox.conf
+ vboxdrv
+ vboxnetadp
+ vboxnetflt
+
 yaourt -S ttf-ms-fonts 
 yaourt -S mint-x-theme mint-y-theme moka-icon-theme faba-icon-theme 
 yaourt -S pamac-aur
