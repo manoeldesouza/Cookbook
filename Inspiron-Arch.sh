@@ -15,10 +15,12 @@ sudo echo "Enter root password to start:"
 echo "1.1 Preparation:"
 #loadkeys br-abnt2
 #systemctl start dhcpd
-Pacman -Sy terminus-font git reflector
+acman -Sy terminus-font git reflector
 setfont ter-v16n
 Pacman -S reflector
 nano /etc/pacman.d/mirrorlist
+
+
 
 
 echo "1.2 Disk setup:"
@@ -78,6 +80,15 @@ grub-mkconfig -o /boot/grub/grub.cfg
 
 
 echo "1.5 System setup:"
+pacman -S terminus-font
+nano /etc/vconsole.conf
+# FONT=ter-v16n
+
+pacman -S git wget git reflector mc vim lynx 
+reflector -c BR
+nano /etc/pacman.d/mirrorlist
+
+
 nano /etc/locale.gen
 locale-gen
 echo LANG=pt_BR.UTF-8 > /etc/locale.conf
@@ -98,40 +109,56 @@ hwclock --systohc --utc
 date
 
 
-echo "1.7 Network basic setup:"
+echo "1.7 Network setup:"
 echo Inspiron > /etc/hostname
 nano /etc/hosts
 # 127.0.1.1     localhost.localdomain   Inspiron
 
-#pacman –S net-tools
-#systemctl enable dhcpd
-#systemctl start dhcpd
-#systemctl status dhcpd
+pacman -S base-devel fakeroot jshon expac grep sed curl tmux bash-completion openssh linux-headers linux-lts linux-lts-headers wpa_supplicant wireless_tools networkmanager iw wpa_supplicant dialog
 
-echo "1.8 Root Password:"
-passwd 
-
-exit 
-umount -R /mnt
-reboot
-
-# -----------------------------------------------------------------------
-# SYSTEM BOOTING FROM MAIN DISK
-# -----------------------------------------------------------------------
-
-useradd -m -g users -G wheel -s /bin/bash manoel
-passwd manoel
-EDITOR=nano visudo 
-# %wheel ALL
+systemctl enable sshd.service
+systemctl enable NetworkManager.service
+systemctl enable wpa_supplicant.service
+systemctl enable bluetooth.service
+systemctl disable dhcpcd.service
 
 cp /etc/netctl/examples/ethernet-dhcp /etc/netctl
 nano /etc/netctl/ethernet-dhcp
 netctl list
 netctl start ethernet-dhcp
 netctl enable ethernet-dhcp
-pacman -Sy dialog wpa_supplicant
 wifi-menu -o
 
+
+echo "1.8 Root & User management:"
+passwd 
+gpasswd -a `id -un` network
+useradd -m -g users -G wheel -s /bin/bash manoel
+passwd manoel
+EDITOR=nano visudo 
+# %wheel ALL
+
+exit 
+umount -R /mnt
+reboot
+
+
+# -----------------------------------------------------------------------
+# SYSTEM BOOTING FROM MAIN DISK
+# -----------------------------------------------------------------------
+localectl set-locale LANG="pt_BR.UTF-8"
+
+setxkbmap -model pc104 -layout us_intl
+echo '
+setxkbmap -model pc104 -layout us_intl
+' >> nano ~/.bashrc
+
+
+sudo nano /etc/pacman.conf
+[archlinuxfr]
+SigLevel = Never
+Server = http://repo.archlinux.fr/$arch
+sudo pacman -Sy yaourt
 
 mkdir ~/Downloads
 cd ~/Downloads
@@ -139,19 +166,14 @@ git clone https://github.com/erikdubois/archcinnamon
 git clone https://github.com/erikdubois/Aureola
 git clone https://github.com/manoeldesouza/Cookbook
 
-sudo pacman -S terminus-font
-nano /etc/vconsole.conf
-# FONT=ter-v16n
+sudo systemctl stop dhcpcd.service
+sudo systemctl start sshd.service
+sudo systemctl start wpa_supplicant.service
+sudo systemctl start NetworkManager.service
+sudo systemctl start bluetooth.service
 
-sudo pacman -S git wget git reflector mc vim lynx base-devel fakeroot jshon expac grep sed curl tmux bash-completion
-sudo reflector -c BR
-sudo nano /etc/pacman.d/mirrorlist
-
-? yaourt packer 
 
 sudo pacman -S p7zip unace unrar zip unzip sharutils uudeview arj cabextract file-roller
-
-
 
 pacman -S alsa-utils pulseaudio pulseaudio-bluetooth
 pacman -S xorg-server xorg-xinit xorg-server-utils xorg-twm xorg-xclock xterm
@@ -165,48 +187,20 @@ sudo pacman -S pulseaudio pulseaudio-alsa pavucontrol alsa-utils alsa-plugins al
 sudo pacman -S xorg-server xorg-utils xorg-xinit xorg-twm xorg-xclock xorg-server-utils mesa xterm
 sudo pacman -S xf86-video-intel 
 sudo pacman -S xf86-input-synaptics
-sudo pacman -S cinnamon nemo-fileroller network-manager-applet
+sudo pacman -S cinnamon nemo-fileroller network-manager-applet network-manager-applet gnome-keyring
 
-
-sudo pacman -S wpa_supplicant wireless_tools networkmanager network-manager-applet gnome-keyring
-sudo systemctl enable NetworkManager.service
-sudo systemctl enable wpa_supplicant.service
-sudo systemctl disable dhcpcd.service
-sudo systemctl stop dhcpcd.service
-gpasswd -a `id -un` network
-sudo systemctl start wpa_supplicant.service
-sudo systemctl start NetworkManager.service
-sudo systemctl enable bluetooth.service
-sudo systemctl start bluetooth.service
-
-
-sudo pacman -S iw wpa_supplicant dialog network-manager-applet networkmanager
 sudo pacman -S xf86-input-libinput
 sudo systemctl enable NetworkManager.service
 sudo systemctl enable gdm.service
 
-
-sudo systemctl start NetworkManager
-sudo systemctl enable NetworkManager
-
-? sudo pacman –S mdm-display-manager
-? sudo systemctl start mdm-service
-? sudo systemctl enable mdm-service
+# sudo pacman –S mdm-display-manager
+# sudo systemctl start mdm-service
+# sudo systemctl enable mdm-service
 
 sudo pacman -S cups cups-pdf ghostscript gsfonts libcups hplip system-config-printer
 sudo systemctl enable org.cups.cupsd.service
 sudo systemctl start org.cups.cupsd.service
 
-sudo nano /etc/pacman.conf
-[archlinuxfr]
-SigLevel = Never
-Server = http://repo.archlinux.fr/$arch
-sudo pacman -Sy yaourt
-
-setxkbmap -model pc104 -layout us_intl
-echo '
-setxkbmap -model pc104 -layout us_intl
-' >> nano ~/.bashrc
 
 
 sudo pacman -S gnome-terminal gedit gnome-system-monitor gnome-font-viewer gnome-screenshot galculator geary gparted net-tools gpick grsync hardinfo hddtemp hexchat htop nemo nemo-share nemo-fileroller noto-fonts gthumb evince gvfs-afc gvfs-goa gvfs-google gvfs-gphoto2 gvfs-mtp gvfs-nfs gvfs-smb
@@ -217,9 +211,9 @@ sudo pacman -S firefox flashplugin chromium clementine conky darktable dconf-edi
 
 sudo pacman -S faenza-icon-theme faience-icon-theme arc-icon-theme arc-gtk-theme 
 
-sudo pacman -S virtualbox
-sudo pacman -S virtualbox-guest-iso
+sudo pacman -S virtualbox virtualbox-host-modules virtualbox-guest-iso
 sudo gpasswd -a $USER vboxusers
+yaourt -S virtualbox-extension-pack
 sudo modprobe vboxdrv
 sudo modprobe -a vboxnetadp vboxnetflt
 sudo nano /etc/modules-load.d/virtualbox.conf
