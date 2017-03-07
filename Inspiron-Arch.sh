@@ -21,10 +21,7 @@ Pacman -S reflector
 nano /etc/pacman.d/mirrorlist
 
 
-
-
 echo "1.2 Disk setup:"
-
 ls /sys/firmware/efi
 ls /sys/firmware/efi/efivars
 gdisk /dev/sda
@@ -71,7 +68,7 @@ nano arch.conf
  # options root=/dev/sda2 rw
 
 
-echo "1.4 Install bootloader (grub - Not used):"
+echo "1.4 Install bootloader (grub - Not tested):"
 pacman -S grub os-prober efibootmgr
 mkdir /boot/efi
 mount /dev/sda2 /boot/efi
@@ -99,6 +96,8 @@ nano /etc/locale.gen
 locale-gen
 echo LANG=pt_BR.UTF-8 > /etc/locale.conf
 export LANG=pt_BR.UTF-8
+
+localectl set-keymap --no-convert br-latin1-us  
 
 nano /etc/modprobe.d/nobeep.conf
 # prevent load of pcspkr module on boot
@@ -156,9 +155,9 @@ reboot
 localectl set-locale LANG="pt_BR.UTF-8"
 
 setxkbmap -model pc104 -layout us_intl
-echo '
-setxkbmap -model pc104 -layout us_intl
-' >> nano ~/.bashrc
+#echo '
+#setxkbmap -model pc104 -layout us_intl
+#' >> nano ~/.bashrc
 
 
 sudo nano /etc/pacman.conf
@@ -236,6 +235,7 @@ sudo nano /etc/modules-load.d/virtualbox.conf
 yaourt -S ttf-ms-fonts 
 yaourt -S mint-x-theme mint-y-theme moka-icon-theme faba-icon-theme 
 
+sudo pacman -S i3 dmenu
 
 
 
@@ -243,5 +243,7 @@ yaourt -S mint-x-theme mint-y-theme moka-icon-theme faba-icon-theme
 
 
 #  http://turlucode.com/arch-linux-install-guide-step-2-desktop-environment-installation/
-
-
+#  https://ramsdenj.com/2016/06/23/arch-linux-on-zfs-part-1-embed-zfs-in-archiso.html
+#  https://ramsdenj.com/2016/06/23/arch-linux-on-zfs-part-2-installation.html
+#  https://wiki.archlinux.org/index.php/Installing_Arch_Linux_on_ZFS
+#  https://wiki.archlinux.org/index.php/systemd-boot
