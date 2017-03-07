@@ -27,7 +27,7 @@ sudo apt-get update && sudo apt-get upgrade -y
 
 
 echo "Installing System Utilities..."
-sudo apt-get install -y gparted mc git build-essential linux-headers-generic linux-headers-$(uname -r) dkms fuse exfat-fuse exfat-utils ubuntu-restricted-extras software-properties-common smartmontools hddtemp tasksel htop lynx-cur terminator gddrescue htop
+sudo apt-get install -y gparted mc git build-essential linux-headers-generic linux-headers-$(uname -r) dkms fuse exfat-fuse exfat-utils ubuntu-restricted-extras software-properties-common smartmontools hddtemp tasksel htop lynx-cur terminator gddrescue htop tmux
 
 
 echo "Adding Powerline..."
@@ -56,7 +56,7 @@ sudo apt-get install -y unace p7zip-rar sharutils rar arj lunzip lzip cabextract
 
 
 echo "Installing Networking Utilities..."
-sudo apt-get install -y aircrack-ng dsniff driftnet etherwake wireshark iptraf
+sudo apt-get install -y aircrack-ng dsniff driftnet etherwake wireshark iptraf traceroute inetutils
 
 
 echo "Installing Server tools..."
@@ -75,11 +75,11 @@ sudo apt-get install -y skype dropbox geany inkscape stellarium cheese shutter r
 
 
 echo "Installing Desktop utilities..."
-sudo apt-get install -y conky-all conky conky-manager docky mint-backgrounds-* ttf-mscorefonts-installer
+sudo apt-get install -y conky-all conky conky-manager docky ttf-mscorefonts-installer
 
 
 echo "Installing Games..."
-sudo apt-get install -y gbrainy gnome-games stella gnome-chess
+sudo apt-get install -y gbrainy gnome-games gnome-chess
 
 
 echo "Installing Icon & GTK themes..."
