@@ -91,13 +91,18 @@ sudo apt-get install -y perl-doc libdbd-mysql-perl mysql-workbench sublime-text 
 
 
 echo "Python Utilities..."
-sudo apt-get install -y python-pip python-dev ipython ipython-doc ipython-notebook ipython3 ipython3-notebook python-setuptools python3-setuptools python-virtualenv python3-virtualenv
+sudo apt-get install -y python-pip python-dev ipython ipython-doc ipython-notebook ipython3 ipython3-notebook python-setuptools python3-setuptools python-virtualenv python3-virtualenv python3-pip python3-dev libxml2-dev libxslt-dev libffi-dev libssl-dev libxml2-dev libxslt1-dev libjpeg8-dev zlib1g-dev linuxbrew-wrapper python3-tk python-tk
 
 
 echo "Installing standard Data Science tools..."
 sudo apt-get install -y r-base r-base-dev r-cran-littler r-base-core octave scilab weka weka-doc 
-sudo apt-get install -y python-numpy python-numpy-doc python-numpy-dbg python3-numpy python3-numpydoc python3-numpy-dbg python-bs4 python3-bs4 python-sklearn python3-sklearn python-sklearn-doc python-sklearn-pandas python3-sklearn-pandas python-pandas python3-pandas python-django python3-django
+sudo apt-get install -y python-numpy python-numpy-doc python-numpy-dbg python3-numpy python3-numpydoc python3-numpy-dbg python-bs4 python3-bs4 python-sklearn python3-sklearn python-sklearn-doc python-sklearn-pandas python3-sklearn-pandas python-pandas python3-pandas python-django python3-django 
 
+pip install -U cryptography scikit-learn django pandas setuptools wheel seaborn pandas-datareader quandl
+pip3 install -U cryptography scikit-learn django pandas setuptools wheel seaborn pandas-datareader quandl
+
+
+echo "R & Rstudio..."
 sudo echo "deb http://cran.rstudio.com/bin/linux/ubuntu xenial/" | sudo tee -a /etc/apt/sources.list
 sudo gpg --keyserver keyserver.ubuntu.com --recv-key E084DAB9
 sudo gpg -a --export E084DAB9 | sudo apt-key add -
@@ -107,15 +112,11 @@ wget https://download1.rstudio.org/rstudio-1.0.136-amd64.deb
 sudo gdebi -n rstudio-1.0.136-amd64.deb
 rm rstudio-1.0.136-amd64.deb
 
+rstudio
+ install.packages(c('repr', 'IRdisplay', 'evaluate', 'crayon', 'pbdZMQ', 'devtools', 'uuid', 'digest'))
+ devtools::install_github('IRkernel/IRkernel')
+ IRkernel::installspec(user = FALSE)
 
-#pip install -U scikit-learn
-#pip install django
-#pip install pandas
-#pip install setuptools
-#pip install wheel
-#pip install seaborn
-#pip install pandas-datareader
-#pip install quandl
 
 
 echo "Installing Anaconda Data Science tools..."
@@ -141,6 +142,7 @@ Additional activities:
  - Configure Virtualbox extension pack
  - Download Virtualbox guest additions
  - Install Mathlab
+ - Install Matlab menu entry (sudo apt-get install matlab-support) 
  - Download Itaú 
 ' >> next_steps.txt
 
