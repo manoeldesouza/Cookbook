@@ -29,6 +29,9 @@ sudo apt-get update && sudo apt-get upgrade -y
 echo "Installing System Utilities..."
 sudo apt-get install -y gparted mc git build-essential linux-headers-generic linux-headers-$(uname -r) dkms fuse exfat-fuse exfat-utils ubuntu-restricted-extras software-properties-common smartmontools hddtemp tasksel htop lynx-cur terminator gddrescue htop tmux
 
+git clone https://github.com/manoeldesouza/cookbook
+sudo cp ~/Downloads/cookbook/linuxmint.png /usr/share/cinnamon/theme
+
 
 echo "Adding Powerline..."
 sudo apt-get install -y python-pip python-setuptools
@@ -56,7 +59,7 @@ sudo apt-get install -y unace p7zip-rar sharutils rar arj lunzip lzip cabextract
 
 
 echo "Installing Networking Utilities..."
-sudo apt-get install -y aircrack-ng dsniff driftnet etherwake wireshark iptraf traceroute inetutils
+sudo apt-get install -y aircrack-ng dsniff driftnet etherwake wireshark iptraf traceroute inetutils-tools
 
 
 echo "Installing Server tools..."
@@ -82,6 +85,7 @@ echo "Installing Games..."
 sudo apt-get install -y gbrainy gnome-games gnome-chess
 
 
+====>
 echo "Installing Icon & GTK themes..."
 sudo apt-get install -y numix-icon-theme numix-icon-theme-circle numix-icon-theme-square numix-gtk-theme moka-icon-theme faba-icon-theme faba-mono-icons paper-icon-theme paper-gtk-theme paper-cursor-theme faenza-icon-theme faience-icon-theme arc-theme arc-icons
 
@@ -95,7 +99,7 @@ sudo apt-get install -y python-pip python-dev ipython ipython-doc ipython-notebo
 
 
 echo "Installing standard Data Science tools..."
-sudo apt-get install -y r-base r-base-dev r-cran-littler r-base-core octave scilab weka weka-doc 
+sudo apt-get install -y octave scilab weka weka-doc 
 sudo apt-get install -y python-numpy python-numpy-doc python-numpy-dbg python3-numpy python3-numpydoc python3-numpy-dbg python-bs4 python3-bs4 python-sklearn python3-sklearn python-sklearn-doc python-sklearn-pandas python3-sklearn-pandas python-pandas python3-pandas python-django python3-django 
 
 pip install -U cryptography scikit-learn django pandas setuptools wheel seaborn pandas-datareader quandl
