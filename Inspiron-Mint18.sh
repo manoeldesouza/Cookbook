@@ -21,14 +21,14 @@ sudo apt-add-repository -y ppa:noobslab/icons
 sudo apt-add-repository -y ppa:noobslab/themes
 sudo add-apt-repository -y ppa:teejee2008/ppa
 sudo add-apt-repository -y ppa:danielrichter2007/grub-customizer
-
+sudo add-apt-repository -y ppa:dawidd0811/neofetch
 
 echo "Updating & upgrading..."
 sudo apt-get update && sudo apt-get upgrade -y
 
 
 echo "Installing System Utilities..."
-sudo apt-get install -y gparted mc git build-essential linux-headers-generic linux-headers-$(uname -r) dkms fuse exfat-fuse exfat-utils ubuntu-restricted-extras software-properties-common smartmontools hddtemp tasksel htop lynx-cur terminator gddrescue htop tmux elinks grub-customizer vim emacs
+sudo apt-get install -y gparted mc git build-essential linux-headers-generic linux-headers-$(uname -r) dkms fuse exfat-fuse exfat-utils ubuntu-restricted-extras software-properties-common smartmontools hddtemp tasksel htop lynx-cur terminator gddrescue htop tmux elinks grub-customizer vim emacs neofetch    
 
 git clone https://github.com/manoeldesouza/cookbook
 sudo cp ~/Downloads/cookbook/linuxmint.png /usr/share/cinnamon/theme
