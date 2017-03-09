@@ -20,6 +20,7 @@ sudo apt-add-repository -y ppa:numix/ppa
 sudo apt-add-repository -y ppa:noobslab/icons
 sudo apt-add-repository -y ppa:noobslab/themes
 sudo add-apt-repository -y ppa:teejee2008/ppa
+sudo add-apt-repository -y ppa:danielrichter2007/grub-customizer
 
 
 echo "Updating & upgrading..."
@@ -27,7 +28,7 @@ sudo apt-get update && sudo apt-get upgrade -y
 
 
 echo "Installing System Utilities..."
-sudo apt-get install -y gparted mc git build-essential linux-headers-generic linux-headers-$(uname -r) dkms fuse exfat-fuse exfat-utils ubuntu-restricted-extras software-properties-common smartmontools hddtemp tasksel htop lynx-cur terminator gddrescue htop tmux
+sudo apt-get install -y gparted mc git build-essential linux-headers-generic linux-headers-$(uname -r) dkms fuse exfat-fuse exfat-utils ubuntu-restricted-extras software-properties-common smartmontools hddtemp tasksel htop lynx-cur terminator gddrescue htop tmux elinks grub-customizer vim emacs
 
 git clone https://github.com/manoeldesouza/cookbook
 sudo cp ~/Downloads/cookbook/linuxmint.png /usr/share/cinnamon/theme
@@ -115,6 +116,8 @@ sudo apt-get install -y r-base r-base-dev
 wget https://download1.rstudio.org/rstudio-1.0.136-amd64.deb
 sudo gdebi -n rstudio-1.0.136-amd64.deb
 rm rstudio-1.0.136-amd64.deb
+sudo apt install r-cran-littler
+
 
 rstudio
  install.packages(c('repr', 'IRdisplay', 'evaluate', 'crayon', 'pbdZMQ', 'devtools', 'uuid', 'digest'))
@@ -127,7 +130,7 @@ echo "Installing Anaconda Data Science tools..."
 #wget https://download1.rstudio.org/rstudio-1.0.136-amd64.deb
 wget https://repo.continuum.io/archive/Anaconda3-4.3.0-Linux-x86_64.sh
 bash Anaconda3-4.3.0-Linux-x86_64.sh
-conda install -c r r-essentials -c r ipython-notebook r-irkernel html5lib
+conda install -c r r-essentials ipython-notebook r-irkernel html5lib
 conda install pandas-datareader quandl
 
 
