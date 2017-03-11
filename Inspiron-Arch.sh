@@ -120,7 +120,7 @@ hostnamectl set-hostname Inspiron
 nano /etc/hosts
 # 127.0.1.1     localhost.localdomain   Inspiron
 
-pacman -S base-devel fakeroot jshon expac grep sed curl tmux bash-completion openssh linux-headers linux-lts linux-lts-headers wpa_supplicant wireless_tools networkmanager network-manager-applet iw wpa_supplicant wpa_actiond dialog
+pacman -S base-devel fakeroot jshon expac grep sed curl tmux bash-completion openssh linux-headers linux-lts linux-lts-headers wireless_tools networkmanager network-manager-applet iw wpa_supplicant wpa_actiond dialog
 
 systemctl enable sshd.service
 systemctl enable NetworkManager.service
@@ -134,6 +134,10 @@ netctl list
 netctl start ethernet-dhcp
 netctl enable ethernet-dhcp
 wifi-menu -o
+
+
+systemctl enable dhcpcd@<INTERFACE>.service
+systemctl enable netctl-auto@<INTERFACE>.service
 
 
 echo "1.8 Root & User management:"

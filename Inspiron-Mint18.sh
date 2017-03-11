@@ -33,6 +33,11 @@ sudo apt-get install -y gparted mc git build-essential linux-headers-generic lin
 git clone https://github.com/manoeldesouza/cookbook
 sudo cp ~/Downloads/cookbook/linuxmint.png /usr/share/cinnamon/theme
 
+echo "
+neofetch
+" >> ~/.bashrc
+
+
 
 echo "Adding Powerline..."
 sudo apt-get install -y python-pip python-setuptools
