@@ -140,7 +140,7 @@ conda install pandas-datareader quandl
 
 
 echo "Installing I3 window manager..."
-sudo apt-get install -y i3 i3-wm dmenu j4-dmenu-desktop i3status i3lock
+sudo apt-get install -y i3 i3-wm dmenu j4-dmenu-desktop i3status i3lock i3blocks
 
 
 #sudo apt-get install -y tlp

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "
-      Script: Antergos Linux 17.2 Recipe (for Inspiron 13 - 7353)
+      Script: Antergos Linux 17.3 Recipe (for Inspiron 13 - 7353)
       Author: Manoel de Souza
       E-Mail: msouza.rj@gmail.com      
      Version: 1.0.0
@@ -17,8 +17,13 @@ sudo pacman -Syu
 
 
 echo "Installing System Utilities..."
-sudo pacman -S gparted mc git wget dkms fuse exfat-utils smartmontools hddtemp htop lynx-cur terminator htop
+sudo pacman -S gparted mc 
+sudo pacman -S fuse exfat-utils smartmontools hddtemp htop lynx terminator htop
+yaourt -S neofetch
 
+echo "
+neofetch
+" >> ~/.bashrc
 
 echo "Adding Powerline..."
 sudo pacman -S python-pip python-setuptools
@@ -121,7 +126,7 @@ echo "Installing Anaconda Data Science tools..."
 
 
 echo "Installing I3 window manager..."
-sudo pacman -S i3 i3-wm dmenu i3status i3lock
+sudo pacman -S i3 i3-wm dmenu i3status i3lock i3blocks
 
 
 #sudo apt-get install -y tlp
@@ -144,6 +149,7 @@ echo "Installation complete. Rebooting..."
 
  
 
+yaourt -S ttf-ms-fonts mint-x-theme mint-y-theme moka-icon-theme faba-icon-theme 
 
 
 sudo pacman -S octave r

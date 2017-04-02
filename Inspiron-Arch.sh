@@ -236,8 +236,7 @@ sudo nano /etc/modules-load.d/virtualbox.conf
  vboxnetadp
  vboxnetflt
 
-yaourt -S ttf-ms-fonts 
-yaourt -S mint-x-theme mint-y-theme moka-icon-theme faba-icon-theme 
+yaourt -S ttf-ms-fonts mint-x-theme mint-y-theme moka-icon-theme faba-icon-theme 
 
 sudo pacman -S i3 dmenu
 
