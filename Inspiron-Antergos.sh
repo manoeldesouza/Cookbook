@@ -60,14 +60,24 @@ echo "Installing Server tools..."
 
 
 echo "Installing Virtualization Utilities..."
-sudo pacman -S virtualbox dropbox virt-manager qemu libvirt
+sudo pacman -S virtualbox dropbox virt-manager qemu libvirt gnome-boxes
 sudo usermod -aG libvirtd,kvm,vboxusers `id -un`
 
+sudo pacman -S firewalld
+sudo pacman -S inxi dmidecode gparted && sudo inxi -Fxm
+sudo pacman -S virt-manager qemu vde2 ebtables dnsmasq bridge-utils openbsd-netcat
+sudo pacman -Syu ebtables dnsmasq
+
+sudo systemctl start libvirtd
+sudo systemctl enable libvirtd
+
+sudo gpasswd -a `id -un` kvm
+sudo gpasswd -a `id -un` libvirt
 
 echo "Installing Desktop applications..."
 #sudo apt-get install -y skype dropbox geany inkscape stellarium cheese shutter rhythmbox scribus blender darktable gnome-music shotwell digikam dia cups-pdf evolution chromium-browser gimp tomahawk musique wine playonlinux
-sudo pacman -S geany inkscape stellarium cheese rhythmbox scribus blender docky shotwell digikam dia cups-pdf evolution bluefish gimp tomahawk darktable gnome-music conky conky-manager vlc filezilla
-
+sudo pacman -S geany inkscape stellarium cheese rhythmbox scribus blender docky shotwell digikam dia cups-pdf evolution bluefish gimp tomahawk darktable gnome-music conky conky-manager vlc filezilla entangle gradio gnome-multi-writter epiphany geary
+yaourt -S wps-office ttf-wps-fonts brackets
 
 echo "Installing Desktop utilities..."
 #sudo apt-get install -y conky-all conky conky-manager docky mint-backgrounds-* ttf-mscorefonts-installer pitivi
@@ -75,14 +85,17 @@ sudo pacman -S antergos-wallpapers-extra archlinux-wallpaper
 
 sudo pacman -S gdm
 sudo systemctl disable lightdm && sudo systemctl enable gdm
-
 sudo pacman -S dropbox
 
+sudo nano /etc/systemd/logind.conf 
+#  HandleLidSwitch=ignore
+sudo systemctl restart systemd-logind
+ 
 
 echo "Installing Games..."
 #sudo apt-get install -y gbrainy gnome-games stella gnome-chess
-sudo pacman -S gbrainy stella gnome-chess 
-
+sudo pacman -S gbrainy gnome-chess 
+yaourt -S gnome-games-stable
 
 echo "Installing Icon & GTK themes..."
 #sudo apt-get install -y numix-icon-theme numix-icon-theme-circle numix-icon-theme-square numix-gtk-theme moka-icon-theme faba-icon-theme faba-mono-icons paper-icon-theme paper-gtk-theme paper-cursor-theme faenza-icon-theme faience-icon-theme arc-theme arc-icons
