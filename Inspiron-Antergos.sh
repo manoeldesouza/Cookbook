@@ -1,11 +1,11 @@
 #!/bin/bash
 
 echo "
-      Script: Antergos Linux 17.3 Recipe (for Inspiron 13 - 7353)
+      Script: Antergos Linux 17.4 Recipe (for Inspiron 13 - 7353)
       Author: Manoel de Souza
       E-Mail: msouza.rj@gmail.com      
      Version: 1.0.0
-        Date: 01-Mar-2017
+        Date: 11-Apr-2017
 "
 
 cd ~/Downloads
@@ -17,13 +17,8 @@ sudo pacman -Syu
 
 
 echo "Installing System Utilities..."
-sudo pacman -S gparted mc 
-sudo pacman -S fuse exfat-utils smartmontools hddtemp htop lynx terminator htop
-yaourt -S neofetch
+sudo pacman -S gparted mc git wget dkms fuse exfat-utils smartmontools hddtemp htop lynx terminator tmux tilix elinks dconf-editor
 
-echo "
-neofetch
-" >> ~/.bashrc
 
 echo "Adding Powerline..."
 sudo pacman -S python-pip python-setuptools
@@ -71,7 +66,7 @@ sudo pacman -S geany inkscape stellarium cheese rhythmbox scribus blender docky 
 
 echo "Installing Desktop utilities..."
 #sudo apt-get install -y conky-all conky conky-manager docky mint-backgrounds-* ttf-mscorefonts-installer pitivi
-sudo pacman -S antergos-wallpapers-extra
+sudo pacman -S antergos-wallpapers-extra archlinux-wallpaper 
 
 
 echo "Installing Games..."
@@ -81,8 +76,8 @@ sudo pacman -S gbrainy stella gnome-chess
 
 echo "Installing Icon & GTK themes..."
 #sudo apt-get install -y numix-icon-theme numix-icon-theme-circle numix-icon-theme-square numix-gtk-theme moka-icon-theme faba-icon-theme faba-mono-icons paper-icon-theme paper-gtk-theme paper-cursor-theme faenza-icon-theme faience-icon-theme arc-theme arc-icons
-sudo pacman -S faenza-icon-theme faience-icon-theme arc-gtk-theme arc-icon-theme
-
+sudo pacman -S faenza-icon-theme faience-icon-theme arc-gtk-theme arc-icon-theme paper-icon-theme paper-gtk-theme-git
+yaourt -S mint-x-theme mint-y-theme moka-icon-theme faba-icon-theme 
 
 
 echo "Installing Programming Utilities..."
@@ -149,7 +144,6 @@ echo "Installation complete. Rebooting..."
 
  
 
-yaourt -S ttf-ms-fonts mint-x-theme mint-y-theme moka-icon-theme faba-icon-theme 
 
 
 sudo pacman -S octave r
