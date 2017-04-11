@@ -36,6 +36,11 @@ POWERLINE_BASH_SELECT=1
 . /usr/lib/python3.6/site-packages/powerline/bindings/bash/powerline.sh
 ' >> ~/.bashrc
 
+yaourt -S neofetch
+echo "
+neofetch
+" >> ~/.bashrc
+
 
 echo "Change default console font to Terminus"
 sudo nano /etc/vconsole.conf
@@ -68,6 +73,11 @@ echo "Installing Desktop utilities..."
 #sudo apt-get install -y conky-all conky conky-manager docky mint-backgrounds-* ttf-mscorefonts-installer pitivi
 sudo pacman -S antergos-wallpapers-extra archlinux-wallpaper 
 
+sudo pacman -S gdm
+sudo systemctl disable lightdm && sudo systemctl enable gdm
+
+sudo pacman -S dropbox
+
 
 echo "Installing Games..."
 #sudo apt-get install -y gbrainy gnome-games stella gnome-chess
@@ -76,8 +86,8 @@ sudo pacman -S gbrainy stella gnome-chess
 
 echo "Installing Icon & GTK themes..."
 #sudo apt-get install -y numix-icon-theme numix-icon-theme-circle numix-icon-theme-square numix-gtk-theme moka-icon-theme faba-icon-theme faba-mono-icons paper-icon-theme paper-gtk-theme paper-cursor-theme faenza-icon-theme faience-icon-theme arc-theme arc-icons
-sudo pacman -S faenza-icon-theme faience-icon-theme arc-gtk-theme arc-icon-theme paper-icon-theme paper-gtk-theme-git
-yaourt -S mint-x-theme mint-y-theme moka-icon-theme faba-icon-theme 
+sudo pacman -S faenza-icon-theme faience-icon-theme arc-gtk-theme arc-icon-theme 
+yaourt -S mint-x-theme mint-y-theme moka-icon-theme faba-icon-theme paper-icon-theme paper-gtk-theme-git
 
 
 echo "Installing Programming Utilities..."
