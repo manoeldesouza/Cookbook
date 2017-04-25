@@ -60,9 +60,24 @@ echo "Installing Server tools..."
 
 
 echo "Installing Virtualization Utilities..."
-sudo pacman -S virtualbox dropbox virt-manager qemu libvirt gnome-boxes
-sudo usermod -aG libvirtd,kvm,vboxusers `id -un`
 
+
+sudo pacman -S linux-headers
+sudo pacman -S virtualbox virtualbox-guest-iso
+sudo pacman -S net-tools
+sudo pacman -S virtualbox-ext-vnc
+
+sudo nano /etc/modules-load.d/virtualbox.conf
+# vboxdrv vbonetadp vboxnetflt vboxpci
+
+yaourt -S virtualbox-ext-oracle
+sudo usermod -aG vboxusers `id -un`
+
+
+
+
+sudo pacman -S virt-manager qemu libvirt gnome-boxes
+sudo usermod -aG libvirtd,kvm `id -un`
 sudo pacman -S firewalld
 sudo pacman -S inxi dmidecode gparted && sudo inxi -Fxm
 sudo pacman -S virt-manager qemu vde2 ebtables dnsmasq bridge-utils openbsd-netcat
@@ -74,10 +89,11 @@ sudo systemctl enable libvirtd
 sudo gpasswd -a `id -un` kvm
 sudo gpasswd -a `id -un` libvirt
 
+
 echo "Installing Desktop applications..."
 #sudo apt-get install -y skype dropbox geany inkscape stellarium cheese shutter rhythmbox scribus blender darktable gnome-music shotwell digikam dia cups-pdf evolution chromium-browser gimp tomahawk musique wine playonlinux
-sudo pacman -S geany inkscape stellarium cheese rhythmbox scribus blender docky shotwell digikam dia cups-pdf evolution bluefish gimp tomahawk darktable gnome-music conky conky-manager vlc filezilla entangle gradio gnome-multi-writter epiphany geary
-yaourt -S wps-office ttf-wps-fonts brackets
+sudo pacman -S geany inkscape stellarium cheese rhythmbox scribus blender docky shotwell digikam dia cups-pdf evolution bluefish gimp tomahawk darktable gnome-music conky conky-manager vlc filezilla epiphany geary gnome-multi-writer
+yaourt -S wps-office ttf-wps-fonts brackets entangle gradio mysql-workbench
 
 echo "Installing Desktop utilities..."
 #sudo apt-get install -y conky-all conky conky-manager docky mint-backgrounds-* ttf-mscorefonts-installer pitivi
@@ -133,6 +149,9 @@ echo "Installing standard Data Science tools..."
 #pip install seaborn
 #pip install pandas-datareader
 #pip install quandl
+
+pacman -S r gcc-fortran
+yaourt -S rstudio-desktop
 
 
 echo "Installing Anaconda Data Science tools..."
