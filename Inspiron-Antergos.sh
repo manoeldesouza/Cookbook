@@ -92,7 +92,7 @@ sudo gpasswd -a `id -un` libvirt
 
 echo "Installing Desktop applications..."
 #sudo apt-get install -y skype dropbox geany inkscape stellarium cheese shutter rhythmbox scribus blender darktable gnome-music shotwell digikam dia cups-pdf evolution chromium-browser gimp tomahawk musique wine playonlinux
-sudo pacman -S geany inkscape stellarium cheese rhythmbox scribus blender docky shotwell digikam dia cups-pdf evolution bluefish gimp tomahawk darktable gnome-music conky conky-manager vlc filezilla epiphany geary gnome-multi-writer
+sudo pacman -S geany inkscape stellarium cheese rhythmbox scribus blender docky shotwell digikam dia cups-pdf evolution bluefish gimp tomahawk darktable gnome-music conky conky-manager vlc filezilla epiphany geary gnome-multi-writer simple-scan
 yaourt -S wps-office ttf-wps-fonts brackets entangle gradio mysql-workbench
 
 echo "Installing Desktop utilities..."
