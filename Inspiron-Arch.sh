@@ -8,6 +8,19 @@ echo "
         Date: 01-Mar-2017
 "
 
+'
+
+https://wiki.archlinux.org/index.php/Installation_guide
+http://lifehacker.com/5680453/build-a-killer-customized-arch-linux-installation-and-learn-all-about-linux-in-the-process
+https://www.ostechnix.com/install-arch-linux-latest-version/
+https://www.ostechnix.com/arch-linux-2016-post-installation/
+
+https://turlucode.com/arch-linux-install-guide-step-1-basic-installation/
+http://turlucode.com/arch-linux-install-guide-step-2-desktop-environment-installation/#GNOME
+
+'
+
+
 cd ~/Downloads
 sudo echo "Enter root password to start:"
 
@@ -15,7 +28,7 @@ sudo echo "Enter root password to start:"
 echo "1.1 Preparation:"
 #loadkeys br-abnt2
 #systemctl start dhcpd
-acman -Sy terminus-font git reflector
+pacman -Sy terminus-font
 setfont ter-v16n
 Pacman -S reflector
 nano /etc/pacman.d/mirrorlist
