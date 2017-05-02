@@ -26,12 +26,9 @@ sudo echo "Enter root password to start:"
 
 
 echo "1.1 Preparation:"
-#loadkeys br-abnt2
-#systemctl start dhcpd
 pacman -Sy terminus-font
 setfont ter-v16n
-Pacman -S reflector
-nano /etc/pacman.d/mirrorlist
+wifi-menu -o
 
 
 echo "1.2 Disk setup:"
@@ -49,9 +46,9 @@ mkswap -L  swap /dev/sda2 && swapon /dev/sda2
 swapon -s
 free -h
 
-mount /mnt /dev/sda3
+mount /dev/sda3 /mnt
 mkdir /mnt/boot
-mount /mnt/boot /dev/sda1
+mount /dev/sda1 /mnt/boot
 
 
 echo "1.3 System installation:"
@@ -96,8 +93,9 @@ pacman -S terminus-font
 nano /etc/vconsole.conf
 # FONT=ter-v16n
 
-pacman -S git wget git reflector mc vim lynx 
-reflector -c BR
+pacman -S git wget reflector mc vim lynx elinks
+ 
+reflector -c BR > /etc/pacman.d/mirrorlist 
 nano /etc/pacman.d/mirrorlist
 # uncomment Multilib
 
@@ -178,10 +176,12 @@ setxkbmap -model pc104 -layout us_intl
 
 
 sudo nano /etc/pacman.conf
+
 [archlinuxfr]
 SigLevel = Never
 Server = http://repo.archlinux.fr/$arch
-sudo pacman -Sy yaourt
+
+sudo pacman -Sy yaourt customizepkg rsync
 
 
 mkdir ~/Downloads
@@ -196,20 +196,81 @@ git clone https://github.com/manoeldesouza/Cookbook
 #sudo systemctl start NetworkManager.service
 #sudo systemctl start bluetooth.service
 
-sudo pacman -S xf86-input-libinput xorg-server xorg-xinit xorg-server-utils mesa 
+sudo pacman -S xorg-server xorg-xinit xorg-server-utils
+sudo pacman -S mesa 
 sudo pacman -S xorg-twm xorg-xclock xterm
 sudo pacman -S xf86-video-intel lib32-intel-dri lib32-mesa lib32-libgl
 
-sudo pacman -S alsa-utils pulseaudio pulseaudio-bluetooth
+sudo pacman -S alsa-utils pulseaudio
+sudo pacman -S alsa-oss alsa-lib
+amixer sset Master unmute
+speaker-test -c 2
+
+sudo pacman -S moc
+
+sudo pacman -S gnome gnome-extra
+
+sudo pacman -S firefox chromium geany inkscape stellarium cheese rhythmbox scribus blender docky shotwell digikam dia cups-pdf evolution bluefish gimp darktable gnome-music conky conky-manager vlc filezilla epiphany geary gnome-multi-writer simple-scan dropbox eog terminator transmission-cli transmission-gtk gparted libreoffice
+
+sudo pacman -S hdparm
 
 
-#pacman -S nvidia nvidia-libgl xorg-xrandr nvidia-settings
-#pacman -S xorg-xrandr
+yaourt -S pamac-aur
+yaourt -S wps-office ttf-wps-fonts brackets entangle gradio mysql-workbench
 
-#sudo pacman -S pulseaudio pulseaudio-alsa pavucontrol alsa-utils alsa-plugins alsa-lib alsa-firmware
+sudo pacman -S gnome-shell-extensions
+yaourt -S gnome-shell-extension-openweather-git gnome-shell-extension-pixel-saver gnome-shell-extension-mediaplayer-git
 
+sudo pacman -S faenza-icon-theme faience-icon-theme arc-gtk-theme arc-icon-theme 
+yaourt -S mint-x-theme mint-y-theme moka-icon-theme faba-icon-theme paper-icon-theme paper-gtk-theme-git
 
 sudo pacman -S cinnamon nemo-fileroller gnome-keyring
+
+sudo pacman -S python-pip python-setuptools
+sudo pip install powerline-status
+wget https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf
+wget https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf
+sudo mv PowerlineSymbols.otf /usr/share/fonts/
+sudo fc-cache -vf
+sudo mv 10-powerline-symbols.conf /etc/fonts/conf.d/
+echo '
+#export TERM=”screen-256color”
+powerline-daemon -q
+POWERLINE_BASH_CONTINUATION=1
+POWERLINE_BASH_SELECT=1
+. /usr/lib/python3.6/site-packages/powerline/bindings/bash/powerline.sh
+' >> ~/.bashrc
+
+yaourt -S neofetch
+echo "
+neofetch
+" >> ~/.bashrc
+
+yaourt -S tilix
+
+sudo pacman -S openssh
+
+
+yaourt -S rstudio-desktop	
+
+
+sudo pacman -S i3 i3-wm dmenu i3status i3lock i3blocks
+
+
+sudo wifi-menu -o
+
+sudo echo '
+Description='A basic DHCP Android Tethering'
+Interface=enp0s20f0u1
+Connection=ethernet
+IP=dhcp
+' > /etc/netctl/Android
+
+sudo netctl start Android
+
+
+
+
 
 # sudo pacman –S mdm-display-manager
 # sudo systemctl start mdm-service
@@ -226,15 +287,13 @@ sudo pacman -S cinnamon nemo-fileroller gnome-keyring
 #sudo systemctl start org.cups.cupsd.service
 
 
-yaourt -S pamac-aur
-
 sudo pacman -S gnome-terminal gedit gnome-system-monitor gnome-font-viewer gnome-screenshot galculator geary gparted net-tools gpick grsync hardinfo hddtemp hexchat htop nemo nemo-share nemo-fileroller noto-fonts gthumb evince gvfs-afc gvfs-goa gvfs-google gvfs-gphoto2 gvfs-mtp gvfs-nfs gvfs-smb jre7-openjdk
 
 sudo pacman -S a52dec faac faad2 flac jasper lame libdca libdv libmad libmpeg2 libtheora libvorbis libxv wavpack x264 xvidcore 
 
 sudo pacman -S gst-plugins-good gst-plugins-bad gst-plugins-base gst-plugins-ugly gstreamer
 
-sudo pacman -S firefox flashplugin chromium clementine conky darktable dconf-editor filezilla galculator geany gimp gksu glances inkscape inxi lm_sensors lsb-release meld mlocate mpv notify-osd numlockx openshot plank polkit-gnome redshift ristretto sane screenfetch scrot shotwell simple-scan simplescreenrecorder smplayer sysstat terminator transmission-cli transmission-gtk tumbler variety vnstat unclutter libreoffice vlc rhythmbox dropbox smbclient samba
+sudo pacman -S firefox flashplugin chromium clementine conky darktable dconf-editor filezilla galculator geany gimp gksu glances inkscape inxi lm_sensors lsb-release meld mlocate mpv notify-osd numlockx openshot plank polkit-gnome redshift ristretto sane screenfetch scrot shotwell simple-scan simplescreenrecorder smplayer sysstat terminator transmission-cli transmission-gtk tumbler variety vnstat unclutter libreoffice vlc rhythmbox dropbox smbclient samba eog
 
 sudo pacman -S faenza-icon-theme faience-icon-theme arc-icon-theme arc-gtk-theme 
 
