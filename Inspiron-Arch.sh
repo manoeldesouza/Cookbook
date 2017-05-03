@@ -216,7 +216,9 @@ sudo pacman -S hdparm
 
 
 yaourt -S pamac-aur
-yaourt -S wps-office ttf-wps-fonts brackets entangle gradio mysql-workbench
+yaourt -S wps-office ttf-wps-fonts
+yaourt -S brackets
+yaourt -S entangle gradio mysql-workbench
 
 sudo pacman -S gnome-shell-extensions
 yaourt -S gnome-shell-extension-openweather-git gnome-shell-extension-pixel-saver gnome-shell-extension-mediaplayer-git
@@ -259,15 +261,35 @@ sudo pacman -S i3 i3-wm dmenu i3status i3lock i3blocks
 
 sudo wifi-menu -o
 
-sudo echo '
+sudo echo "
 Description='A basic DHCP Android Tethering'
 Interface=enp0s20f0u1
 Connection=ethernet
 IP=dhcp
-' > /etc/netctl/Android
+" > /etc/netctl/Android
 
 sudo netctl start Android
+sudo netctl enable Android
 
+sudo pacman -S ifplugd
+
+sudo systemctl enable netctl-ifplugd@Android.service
+
+
+
+sudo echo "
+Description='A basic DHCP for J5 Ethernet adapter'
+Interface=enp0s20f0u2u4
+Connection=ethernet
+IP=dhcp
+" > /etc/netctl/J5-Ethernet
+
+sudo netctl start J5-Ethernet
+sudo netctl enable J5-Ethernet
+
+sudo pacman -S ifplugd
+
+sudo systemctl enable netctl-ifplugd@J5-Ethernet.service
 
 
 
