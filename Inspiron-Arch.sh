@@ -209,6 +209,9 @@ hostnamectl set-hostname Inspiron
 nano /etc/hosts
 # 127.0.1.1     localhost.localdomain   Inspiron
 
+sudo pacman -S wireless_tools wpa_supplicant wpa_actiond dialog
+
+
 
 # Services setup
 # -----------------------
@@ -369,9 +372,9 @@ sudo pacman -S moc
 # Gnome setup
 # -----------------------
 sudo pacman -S gnome gnome-extra
-
+sudo pacman -S gnome-initial-setup
 sudo pacman -S gnome-shell-extensions
-yaourt -S gnome-shell-extension-openweather-git gnome-shell-extension-pixel-saver gnome-shell-extension-mediaplayer-git
+yaourt -S gnome-shell-extension-openweather-git gnome-shell-extension-pixel-saver gnome-shell-extension-mediaplayer-git gnome-shell-user-themes
 
 sudo pacman -S faenza-icon-theme faience-icon-theme arc-gtk-theme arc-icon-theme 
 yaourt -S mint-x-theme mint-y-theme moka-icon-theme faba-icon-theme paper-icon-theme paper-gtk-theme-git
@@ -385,7 +388,8 @@ exec gnome-session
 
 # Codecs installation
 # -----------------------
-sudo pacman -S gstreamer gst-libav gst-plugins-base gst-plugins-base
+sudo pacman -S gstreamer gst-libav gst-plugins-base gst-plugins-good gst-plugins-bad gst-plugins-ugly
+sudo pacman -S a52dec faac faad2 flac jasper lame libdca libdv libmad libmpeg2 libtheora libvorbis libxv wavpack x264 xvidcore 
 
 
 
@@ -441,6 +445,9 @@ neofetch
 
 # Warsaw installation (online banking)
 # -----------------------
+
+# Details:	http://www.vivaolinux.com.br/dica/Modulo-de-Seguranca-Warsaw-da-Caixa-no-Arch-Linux
+
 yaourt -S warsaw
 /usr/local/bin/warsaw/core
 /usr/bin/warsaw/wsatspi
@@ -462,7 +469,7 @@ sudo pacman -S linux-headers
 sudo pacman -S net-tools
 sudo pacman -S virtualbox virtualbox-host-modules-arch virtualbox-guest-iso
 sudo pacman -S virtualbox-ext-vnc
-sudo gpasswd -a $USER vboxusers
+
 yaourt -S virtualbox-ext-oracle
 
 sudo modprobe vboxdrv
@@ -474,6 +481,7 @@ sudo nano /etc/modules-load.d/virtualbox.conf
  vboxnetflt
  vboxpci
 
+sudo gpasswd -a $USER vboxusers
 #sudo usermod -aG vboxusers `id -un`
 
 
@@ -481,19 +489,20 @@ sudo nano /etc/modules-load.d/virtualbox.conf
 # KVM installation
 # -----------------------
 sudo pacman -S firewalld
+sudo pacman -S ebtables iptables 
 sudo pacman -S inxi dmidecode gparted && sudo inxi -Fxm
-sudo pacman -S qemu libvirt ebtables gnome-boxes virt-manager virtviewer dnsmasq iptables vde2 bridge-utils openbsd-netcat
+sudo pacman -S qemu libvirt gnome-boxes virt-manager dnsmasq vde2 bridge-utils openbsd-netcat
 
 sudo systemctl enable libvirtd.service
 sudo systemctl start libvirtd.service
 
 sudo usermod -aG libvirtd,kvm `id -un`
 
-sudo systemctl start libvirtd
-sudo systemctl enable libvirtd
+#sudo systemctl start libvirtd
+#sudo systemctl enable libvirtd
 
-sudo gpasswd -a `id -un` kvm
-sudo gpasswd -a `id -un` libvirt
+#sudo gpasswd -a `id -un` kvm
+#sudo gpasswd -a `id -un` libvirt
 
 
 
@@ -509,7 +518,7 @@ yaourt -S rstudio-desktop
 
 # Details:	https://wiki.archlinux.org/index.php/matlab
 
-sudo ln -s /{MATLAB}/bin/matlab /usr/local/bin
+sudo ln -s /usr/local/MATLAB/R2016b/bin/matlab /usr/local/bin
 sudo curl https://upload.wikimedia.org/wikipedia/commons/2/21/Matlab_Logo.png -o /usr/share/icons/matlab.png
 sudo echo '
 #!/usr/bin/env xdg-open
@@ -518,12 +527,21 @@ Type=Application
 Icon=/usr/share/icons/matlab.png
 Name=MATLAB
 Comment=Start MATLAB - The Language of Technical Computing
-Exec=matlab -desktop -nosplash
+Exec=matlab -desktop
 Categories=Development;
 MimeType=text/x-matlab;
+StartupWMClass=MATLAB R2016b - academic use
 ' >  /usr/share/applications/matlab.desktop
 
-xprop | grep WM_CLASS
+#xprop | grep WM_CLASS
+
+
+
+# Data Science Tools: Anaconda
+# -----------------------
+wget https://repo.continuum.io/archive/Anaconda3-4.3.1-Linux-x86_64.sh
+chmod ugo+x Anaconda3-4.3.1-Linux-x86_64.sh
+./Anaconda3-4.3.1-Linux-x86_64.sh
 
 
 
