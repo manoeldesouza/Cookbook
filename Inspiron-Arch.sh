@@ -6,11 +6,7 @@ echo "
       E-Mail: msouza.rj@gmail.com      
      Version: 2.0.0
         Date: 06-May-2017
-
-
 "
-
-
 
 #	https://wiki.archlinux.org/index.php/Installation_guide
 #	http://lifehacker.com/5680453/build-a-killer-customized-arch-linux-installation-and-learn-all-about-linux-in-the-process
@@ -25,7 +21,6 @@ echo "
 #	https://ramsdenj.com/2016/06/23/arch-linux-on-zfs-part-2-installation.html
 #	https://wiki.archlinux.org/index.php/Installing_Arch_Linux_on_ZFS
 #	https://wiki.archlinux.org/index.php/systemd-boot
-
 
 
 
@@ -254,6 +249,7 @@ passwd manoel
 exit 
 umount -R /mnt
 reboot
+
 
 
 
@@ -506,12 +502,6 @@ sudo usermod -aG libvirtd,kvm `id -un`
 
 
 
-# Data Science Tools: R Studio
-# -----------------------
-yaourt -S rstudio-desktop	
-
-
-
 # Data Science Tools: Matlab
 # -----------------------
 # Install matlab: www.mathworks.com
@@ -545,10 +535,15 @@ chmod ugo+x Anaconda3-4.3.1-Linux-x86_64.sh
 
 
 
+# Data Science Tools: R Studio
+# -----------------------
+yaourt -S rstudio-desktop	
+
+
+
 # i3 Window Manager installation
 # -----------------------
 sudo pacman -S i3 i3-wm dmenu i3status i3lock i3blocks
-
 
 
 
