@@ -150,8 +150,7 @@ FONT=ter-v16n
 
 # Core utilities
 # -----------------------
-pacman -S git wget reflector mc vim lynx elinks gdisk hdparm
-pacman -S base-devel fakeroot jshon expac grep sed curl tmux bash-completion openssh linux-headers linux-lts linux-lts-headers wireless_tools networkmanager network-manager-applet iw wpa_supplicant wpa_actiond dialog
+pacman -S git wget reflector mc vim lynx elinks gdisk hdparm tmux bash-completion
  
 reflector -c BR > /etc/pacman.d/mirrorlist 
 nano /etc/pacman.d/mirrorlist
@@ -189,12 +188,14 @@ localectl set-keymap --no-convert br-latin1-us
 #mkinitcpio -p linux
 
 
+
 # Timezone setup
 # -----------------------
 timedatectl set-ntp true
 ln -sf /usr/share/zoneinfo/Brazil/East /etc/localtime
 hwclock --systohc --utc
 date
+
 
 
 # Network setup
@@ -204,7 +205,23 @@ hostnamectl set-hostname Inspiron
 nano /etc/hosts
 # 127.0.1.1     localhost.localdomain   Inspiron
 
-sudo pacman -S wireless_tools wpa_supplicant wpa_actiond dialog
+sudo pacman -S iw wireless_tools wpa_supplicant wpa_actiond dialog
+
+wifi-menu -o
+
+echo "
+Description='J5create Lan / USB interface'
+Interface=enp0s20f0u2u4
+Connection=ethernet
+IP=dhcp
+" > /etc/netctl/ethernet-dhcp
+
+echo "
+Description='Andrdoid Tethering'
+Interface=enp0s020f0u1
+Connection=ethernet
+IP=dhcp
+" > /etc/netctl/android-dhcp
 
 
 
