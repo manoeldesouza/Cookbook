@@ -401,7 +401,7 @@ startx
 
 # Applications installation
 # -----------------------
-sudo pacman -S firefox flashplugin chromium geany inkscape stellarium cheese rhythmbox scribus blender docky shotwell digikam dia cups-pdf evolution bluefish gimp darktable gnome-music conky conky-manager vlc filezilla epiphany geary gnome-multi-writer simple-scan dropbox eog terminator transmission-cli transmission-gtk gparted libreoffice totem youtube-dl
+sudo pacman -S firefox flashplugin chromium geany inkscape stellarium cheese rhythmbox scribus blender docky shotwell digikam dia cups-pdf evolution bluefish gimp darktable gnome-music conky conky-manager vlc filezilla epiphany geary gnome-multi-writer simple-scan dropbox eog terminator transmission-cli transmission-gtk gparted libreoffice totem youtube-dl octave
 
 yaourt -S pamac-aur
 yaourt -S wps-office ttf-wps-fonts
