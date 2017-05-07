@@ -244,6 +244,7 @@ EDITOR=nano visudo
 # %wheel ALL
 
 
+
 # User setup
 # -----------------------
 useradd -m -g users -G wheel -s /bin/bash manoel
@@ -470,8 +471,7 @@ StartupWMClass=MATLAB R2016b - academic use
 ' >  /usr/share/applications/matlab.desktop
 
 # OR:
-
-yaourt -S matlab
+# yaourt -S matlab
 
 
 
@@ -482,7 +482,7 @@ chmod ugo+x Anaconda3-4.3.1-Linux-x86_64.sh
 ./Anaconda3-4.3.1-Linux-x86_64.sh
 
 # OR:
-yaourt -S anaconda
+# yaourt -S anaconda
 
 
 
