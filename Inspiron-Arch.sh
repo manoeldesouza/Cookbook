@@ -1,59 +1,111 @@
 #!/bin/bash
 
 echo "
-      Script: Linux Mint 18 Recipe (for Inspiron 13 - 7353)
+      Script: Arch Linux (2017-05) Recipe (for Inspiron 13 - 7353)
       Author: Manoel de Souza
       E-Mail: msouza.rj@gmail.com      
-     Version: 1.0.0
-        Date: 01-Mar-2017
+     Version: 2.0.0
+        Date: 06-May-2017
+
+
 "
 
-'
-
-https://wiki.archlinux.org/index.php/Installation_guide
-http://lifehacker.com/5680453/build-a-killer-customized-arch-linux-installation-and-learn-all-about-linux-in-the-process
-https://www.ostechnix.com/install-arch-linux-latest-version/
-https://www.ostechnix.com/arch-linux-2016-post-installation/
-
-https://turlucode.com/arch-linux-install-guide-step-1-basic-installation/
-http://turlucode.com/arch-linux-install-guide-step-2-desktop-environment-installation/#GNOME
-
-'
 
 
-cd ~/Downloads
-sudo echo "Enter root password to start:"
+#	https://wiki.archlinux.org/index.php/Installation_guide
+#	http://lifehacker.com/5680453/build-a-killer-customized-arch-linux-installation-and-learn-all-about-linux-in-the-process
+#	https://www.ostechnix.com/install-arch-linux-latest-version/
+#	https://www.ostechnix.com/arch-linux-2016-post-installation/
+
+#	https://turlucode.com/arch-linux-install-guide-step-1-basic-installation/
+#	http://turlucode.com/arch-linux-install-guide-step-2-desktop-environment-installation/#GNOME
+
+#	http://turlucode.com/arch-linux-install-guide-step-2-desktop-environment-installation/
+#	https://ramsdenj.com/2016/06/23/arch-linux-on-zfs-part-1-embed-zfs-in-archiso.html
+#	https://ramsdenj.com/2016/06/23/arch-linux-on-zfs-part-2-installation.html
+#	https://wiki.archlinux.org/index.php/Installing_Arch_Linux_on_ZFS
+#	https://wiki.archlinux.org/index.php/systemd-boot
 
 
-echo "1.1 Preparation:"
-pacman -Sy terminus-font
-setfont ter-v16n
+
+
+
+echo "
+First Step: Basic bootstrap installation
+===========================================================================================================
+"
+
+echo "
+1.1 Keys:
+"
+
+loadkeys br-latin1-us
+wget https://github.com/manoeldesouza/cookbook/Inspiron-Arch.sh
+
+
+
+echo "
+1.2 Network:
+"
+
+ping www.yahoo.com
 wifi-menu -o
 
+pacman -Syu reflector rsync
 
-echo "1.2 Disk setup:"
-ls /sys/firmware/efi
-ls /sys/firmware/efi/efivars
-gdisk /dev/sda
+reflector -c BR > /etc/pacman.d/mirrorlist
+
+
+
+echo "
+1.3 Disk partitions setup:
+"
+
+sgdisk --zap /dev/sda
+#sgdisk --clear /dev/sda
+
+sgdisk --new 0:0:+512M --typecode 0:ef00  --change-name 0:"EFI System" /dev/sda 
+sgdisk --new 0:0:+8G   --typecode 0:8200  --change-name 0:"Linux Swap" /dev/sda 
+sgdisk --new 0:0:0     --typecode 0:8300  --change-name 0:"Linux Root" /dev/sda 
+
+sgdisk --print /dev/sda
+
+#gdisk /dev/sda
  # o (clear)
  # n 
  # GUID EF00
-gdisk -l /dev/sda
+#gdisk -l /dev/sda
+
+
+
+echo "
+1.4 filesystem setup:
+"
 
 mkfs.fat -F32 -n BOOT /dev/sda1
-mkfs.ext4 /dev/sda3
-mkswap -L  swap /dev/sda2 && swapon /dev/sda2
+
+mkswap -L  swap /dev/sda2
+swapon /dev/sda2
 swapon -s
 free -h
+
+mkfs.ext4 /dev/sda3
+
 
 mount /dev/sda3 /mnt
 mkdir /mnt/boot
 mount /dev/sda1 /mnt/boot
 
 
-echo "1.3 System installation:"
+
+echo "
+1.5 Basic installation:
+"
+
 pacstrap /mnt base base-devel
+
 genfstab -U /mnt >> /mnt/etc/fstab
+
 nano /mnt/etc/fstab
 # /dev/sda2  none swap defaults 0 0
 # add discard to /
@@ -61,83 +113,111 @@ nano /mnt/etc/fstab
 arch-chroot /mnt
 
 
-echo "1.4 Install bootloader (Systemd):"
+
+
+echo "
+Second Step: Boot loader and basic utilities
+===========================================================================================================
+"
+
+echo "
+2.1 Bootloader (Systemd) installation:
+"
+
 bootctl install
-cd /boot
-cd loader
-nano loader.conf
- # default arch
- # timeout 4
- # editor 0
 
-cd entries
-nano arch.conf
- # title Arch Linux
- # linux /vmlinuz-linux
- # initrd /intramfs-linux.img
- # options root=/dev/sda2 rw
+echo "
+default arch
+timeout 4
+editor 0
+" > /boot/loader/loader.conf
 
-
-echo "1.4 Install bootloader (grub - Not tested):"
-pacman -S grub os-prober efibootmgr
-mkdir /boot/efi
-mount /dev/sda2 /boot/efi
-
-grub-install /dev/sda
-grub-install --efi-directory=/boot/efi /dev/sda
-grub-mkconfig -o /boot/grub/grub.cfg
+echo "
+title Arch Linux
+linux /vmlinuz-linux
+initrd /intramfs-linux.img
+options root=/dev/sda3 rw
+" > /boot/loader/entries/arch.conf
 
 
-echo "1.5 System setup:"
+
+echo "
+2.2 System installation:
+"
+
 pacman -S terminus-font
-nano /etc/vconsole.conf
-# FONT=ter-v16n
+setfont ter-v16n
 
-pacman -S git wget reflector mc vim lynx elinks
+echo "
+FONT=ter-v16n
+" >  /etc/vconsole.conf
+
+
+# Core utilities
+# -----------------------
+pacman -S git wget reflector mc vim lynx elinks gdisk hdparm
+pacman -S base-devel fakeroot jshon expac grep sed curl tmux bash-completion openssh linux-headers linux-lts linux-lts-headers wireless_tools networkmanager network-manager-applet iw wpa_supplicant wpa_actiond dialog
  
 reflector -c BR > /etc/pacman.d/mirrorlist 
 nano /etc/pacman.d/mirrorlist
 # uncomment Multilib
 
-sudo pacman -S p7zip unace unrar zip unzip sharutils uudeview arj cabextract file-roller
+
+# Compression Utilities
+# -----------------------
+pacman -S p7zip unace unrar zip unzip sharutils uudeview arj cabextract file-roller
 
 
 
+echo "
+2.3 System configuration:
+"
+
+# Locale setup
+# -----------------------
 nano /etc/locale.gen
+# Uncomment   pt_BR.UTF-8
+
 locale-gen
 echo LANG=pt_BR.UTF-8 > /etc/locale.conf
 export LANG=pt_BR.UTF-8
 
 localectl set-keymap --no-convert br-latin1-us  
 
-nano /etc/modprobe.d/nobeep.conf
+
+
+#nano /etc/modprobe.d/nobeep.conf
 # prevent load of pcspkr module on boot
 # blacklist pcspkr
 
-mkinitcpio -p linux
+
+#mkinitcpio -p linux
 
 
-echo "1.6 Timezone setup:"
-
+# Timezone setup
+# -----------------------
 timedatectl set-ntp true
 ln -sf /usr/share/zoneinfo/Brazil/East /etc/localtime
 hwclock --systohc --utc
 date
 
 
-echo "1.7 Network setup:"
+# Network setup
+# -----------------------
 hostnamectl set-hostname Inspiron
 
 nano /etc/hosts
 # 127.0.1.1     localhost.localdomain   Inspiron
 
-pacman -S base-devel fakeroot jshon expac grep sed curl tmux bash-completion openssh linux-headers linux-lts linux-lts-headers wireless_tools networkmanager network-manager-applet iw wpa_supplicant wpa_actiond dialog
 
+# Services setup
+# -----------------------
 systemctl enable sshd.service
 systemctl enable NetworkManager.service
 systemctl enable wpa_supplicant.service
 systemctl enable bluetooth.service
-systemctl disable dhcpcd.service
+#systemctl disable dhcpcd.service
+
 
 cp /etc/netctl/examples/ethernet-dhcp /etc/netctl
 nano /etc/netctl/ethernet-dhcp
@@ -151,22 +231,89 @@ systemctl enable dhcpcd@<INTERFACE>.service
 systemctl enable netctl-auto@<INTERFACE>.service
 
 
-echo "1.8 Root & User management:"
+echo "
+2.4 Root & User configuration:
+"
+
+# Root setup
+# -----------------------
 passwd 
 gpasswd -a `id -un` network
-useradd -m -g users -G wheel -s /bin/bash manoel
-passwd manoel
 EDITOR=nano visudo 
 # %wheel ALL
+
+
+# User setup
+# -----------------------
+useradd -m -g users -G wheel -s /bin/bash manoel
+passwd manoel
 
 exit 
 umount -R /mnt
 reboot
 
 
-# -----------------------------------------------------------------------
-# SYSTEM BOOTING FROM MAIN DISK
-# -----------------------------------------------------------------------
+
+echo "
+Third Step: First Boot
+===========================================================================================================
+"
+
+# Cookbook download
+# -----------------------
+mkdir ~/Downloads
+cd ~/Downloads
+#git clone https://github.com/erikdubois/archcinnamon
+#git clone https://github.com/erikdubois/Aureola
+git clone https://github.com/manoeldesouza/Cookbook
+
+
+
+# AUR setup
+# -----------------------
+sudo wifi-menu -o
+
+#sudo echo "
+#Description='A basic DHCP Android Tethering'
+#Interface=enp0s20f0u1
+#Connection=ethernet
+#IP=dhcp
+#" > /etc/netctl/Android
+
+#sudo netctl start Android
+#sudo netctl enable Android
+
+sudo pacman -S ifplugd
+
+#sudo systemctl enable netctl-ifplugd@Android.service
+
+
+# J5 Ethernet
+sudo dhcpcd enp0s20f0u1u4
+
+# Android Tethering
+sudo dhcpcd enp0s20f0u2
+	
+
+
+#sudo echo "
+#Description='A basic DHCP for J5 Ethernet adapter'
+#Interface=enp0s20f0u2u4
+#Connection=ethernet
+#IP=dhcp
+#" > /etc/netctl/J5-Ethernet
+
+#sudo netctl start J5-Ethernet
+#sudo netctl enable J5-Ethernet
+
+#sudo pacman -S ifplugd
+
+#sudo systemctl enable netctl-ifplugd@J5-Ethernet.service
+
+
+
+# Locale setup
+# -----------------------
 localectl set-locale LANG="pt_BR.UTF-8"
 
 setxkbmap -model pc104 -layout us_intl
@@ -175,6 +322,9 @@ setxkbmap -model pc104 -layout us_intl
 #' >> nano ~/.bashrc
 
 
+
+# AUR setup
+# -----------------------
 sudo nano /etc/pacman.conf
 
 [archlinuxfr]
@@ -184,11 +334,8 @@ Server = http://repo.archlinux.fr/$arch
 sudo pacman -Sy yaourt customizepkg rsync
 
 
-mkdir ~/Downloads
-cd ~/Downloads
-#git clone https://github.com/erikdubois/archcinnamon
-#git clone https://github.com/erikdubois/Aureola
-git clone https://github.com/manoeldesouza/Cookbook
+
+
 
 #sudo systemctl stop dhcpcd.service
 #sudo systemctl start sshd.service
@@ -196,29 +343,32 @@ git clone https://github.com/manoeldesouza/Cookbook
 #sudo systemctl start NetworkManager.service
 #sudo systemctl start bluetooth.service
 
+
+
+# Xorg setup
+# -----------------------
 sudo pacman -S xorg-server xorg-xinit xorg-server-utils
 sudo pacman -S mesa 
 sudo pacman -S xorg-twm xorg-xclock xterm
 sudo pacman -S xf86-video-intel lib32-intel-dri lib32-mesa lib32-libgl
 
+
+
+# Audio setup
+# -----------------------
 sudo pacman -S alsa-utils pulseaudio
 sudo pacman -S alsa-oss alsa-lib
+sudo reboot
+
 amixer sset Master unmute
 speaker-test -c 2
-
 sudo pacman -S moc
 
+
+
+# Gnome setup
+# -----------------------
 sudo pacman -S gnome gnome-extra
-
-sudo pacman -S firefox chromium geany inkscape stellarium cheese rhythmbox scribus blender docky shotwell digikam dia cups-pdf evolution bluefish gimp darktable gnome-music conky conky-manager vlc filezilla epiphany geary gnome-multi-writer simple-scan dropbox eog terminator transmission-cli transmission-gtk gparted libreoffice
-
-sudo pacman -S hdparm
-
-
-yaourt -S pamac-aur
-yaourt -S wps-office ttf-wps-fonts
-yaourt -S brackets
-yaourt -S entangle gradio mysql-workbench
 
 sudo pacman -S gnome-shell-extensions
 yaourt -S gnome-shell-extension-openweather-git gnome-shell-extension-pixel-saver gnome-shell-extension-mediaplayer-git
@@ -226,8 +376,43 @@ yaourt -S gnome-shell-extension-openweather-git gnome-shell-extension-pixel-save
 sudo pacman -S faenza-icon-theme faience-icon-theme arc-gtk-theme arc-icon-theme 
 yaourt -S mint-x-theme mint-y-theme moka-icon-theme faba-icon-theme paper-icon-theme paper-gtk-theme-git
 
-sudo pacman -S cinnamon nemo-fileroller gnome-keyring
+echo "
+exec gnome-session
+#exec i3
+" > ~/.xinitrc
 
+
+
+# Codecs installation
+# -----------------------
+sudo pacman -S gstreamer gst-libav gst-plugins-base gst-plugins-base
+
+
+
+
+echo "
+Forth Step: Gnome Desktop
+===========================================================================================================
+"
+
+startx
+
+
+
+# Applications installation
+# -----------------------
+sudo pacman -S firefox flashplugin chromium geany inkscape stellarium cheese rhythmbox scribus blender docky shotwell digikam dia cups-pdf evolution bluefish gimp darktable gnome-music conky conky-manager vlc filezilla epiphany geary gnome-multi-writer simple-scan dropbox eog terminator transmission-cli transmission-gtk gparted libreoffice
+
+yaourt -S pamac-aur
+yaourt -S wps-office ttf-wps-fonts
+yaourt -S brackets
+yaourt -S entangle gradio mysql-workbench
+yaourt -S tilix
+
+
+
+# Powerline configuration
+# -----------------------
 sudo pacman -S python-pip python-setuptools
 sudo pip install powerline-status
 wget https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf
@@ -243,53 +428,134 @@ POWERLINE_BASH_SELECT=1
 . /usr/lib/python3.6/site-packages/powerline/bindings/bash/powerline.sh
 ' >> ~/.bashrc
 
+
+
+# Neofetch configuration
+# -----------------------
 yaourt -S neofetch
 echo "
 neofetch
 " >> ~/.bashrc
 
-yaourt -S tilix
 
+
+# Warsaw installation (online banking)
+# -----------------------
+yaourt -S warsaw
+/usr/local/bin/warsaw/core
+/usr/bin/warsaw/wsatspi
+
+sudo systemctl start warsaw.service
+sudo systemctl enable warsaw.service
+
+
+
+# SSH installation
+# -----------------------
 sudo pacman -S openssh
 
 
+
+# Virtualbox installation
+# -----------------------
+sudo pacman -S linux-headers
+sudo pacman -S net-tools
+sudo pacman -S virtualbox virtualbox-host-modules-arch virtualbox-guest-iso
+sudo pacman -S virtualbox-ext-vnc
+sudo gpasswd -a $USER vboxusers
+yaourt -S virtualbox-ext-oracle
+
+sudo modprobe vboxdrv
+sudo modprobe -a vboxnetadp vboxnetflt
+
+sudo nano /etc/modules-load.d/virtualbox.conf
+ vboxdrv
+ vboxnetadp
+ vboxnetflt
+ vboxpci
+
+#sudo usermod -aG vboxusers `id -un`
+
+
+
+# KVM installation
+# -----------------------
+sudo pacman -S firewalld
+sudo pacman -S inxi dmidecode gparted && sudo inxi -Fxm
+sudo pacman -S qemu libvirt ebtables gnome-boxes virt-manager virtviewer dnsmasq iptables vde2 bridge-utils openbsd-netcat
+
+sudo systemctl enable libvirtd.service
+sudo systemctl start libvirtd.service
+
+sudo usermod -aG libvirtd,kvm `id -un`
+
+sudo systemctl start libvirtd
+sudo systemctl enable libvirtd
+
+sudo gpasswd -a `id -un` kvm
+sudo gpasswd -a `id -un` libvirt
+
+
+
+# Data Science Tools: R Studio
+# -----------------------
 yaourt -S rstudio-desktop	
 
 
+
+# Data Science Tools: Matlab
+# -----------------------
+# Install matlab: www.mathworks.com
+
+# Details:	https://wiki.archlinux.org/index.php/matlab
+
+sudo ln -s /{MATLAB}/bin/matlab /usr/local/bin
+sudo curl https://upload.wikimedia.org/wikipedia/commons/2/21/Matlab_Logo.png -o /usr/share/icons/matlab.png
+sudo echo '
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Type=Application
+Icon=/usr/share/icons/matlab.png
+Name=MATLAB
+Comment=Start MATLAB - The Language of Technical Computing
+Exec=matlab -desktop -nosplash
+Categories=Development;
+MimeType=text/x-matlab;
+' >  /usr/share/applications/matlab.desktop
+
+xprop | grep WM_CLASS
+
+
+
+# i3 Window Manager installation
+# -----------------------
 sudo pacman -S i3 i3-wm dmenu i3status i3lock i3blocks
 
 
-sudo wifi-menu -o
-
-sudo echo "
-Description='A basic DHCP Android Tethering'
-Interface=enp0s20f0u1
-Connection=ethernet
-IP=dhcp
-" > /etc/netctl/Android
-
-sudo netctl start Android
-sudo netctl enable Android
-
-sudo pacman -S ifplugd
-
-sudo systemctl enable netctl-ifplugd@Android.service
 
 
 
-sudo echo "
-Description='A basic DHCP for J5 Ethernet adapter'
-Interface=enp0s20f0u2u4
-Connection=ethernet
-IP=dhcp
-" > /etc/netctl/J5-Ethernet
+echo "
+Fifth Step: Final configuration
+===========================================================================================================
+"
 
-sudo netctl start J5-Ethernet
-sudo netctl enable J5-Ethernet
+# 1. Firefox backspace
+#	about:config
+#	browser.backspace_action => 0
+#
+# Persist tabs
 
-sudo pacman -S ifplugd
 
-sudo systemctl enable netctl-ifplugd@J5-Ethernet.service
+# 2. Fonts
+#
+#	Titles: Cantarell Bold 10
+#	Interface: Cantarell Regular 9 
+#	Documents: Sans Regular 9
+#	Monospace: Monospace Regular 9
+#
+#	anti-aliasing-mode: rgba
+
 
 
 
@@ -320,27 +586,15 @@ sudo pacman -S firefox flashplugin chromium clementine conky darktable dconf-edi
 sudo pacman -S faenza-icon-theme faience-icon-theme arc-icon-theme arc-gtk-theme 
 
 
-sudo pacman -S virtualbox virtualbox-host-modules virtualbox-guest-iso
-sudo gpasswd -a $USER vboxusers
-yaourt -S virtualbox-extension-pack
-sudo modprobe vboxdrv
-sudo modprobe -a vboxnetadp vboxnetflt
-sudo nano /etc/modules-load.d/virtualbox.conf
- vboxdrv
- vboxnetadp
- vboxnetflt
+
 
 yaourt -S ttf-ms-fonts mint-x-theme mint-y-theme moka-icon-theme faba-icon-theme 
 
-sudo pacman -S i3 dmenu
 
 
 
 
 
 
-#  http://turlucode.com/arch-linux-install-guide-step-2-desktop-environment-installation/
-#  https://ramsdenj.com/2016/06/23/arch-linux-on-zfs-part-1-embed-zfs-in-archiso.html
-#  https://ramsdenj.com/2016/06/23/arch-linux-on-zfs-part-2-installation.html
-#  https://wiki.archlinux.org/index.php/Installing_Arch_Linux_on_ZFS
-#  https://wiki.archlinux.org/index.php/systemd-boot
+
+
