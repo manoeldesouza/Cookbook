@@ -157,11 +157,6 @@ nano /etc/pacman.d/mirrorlist
 # uncomment Multilib
 
 
-# Compression Utilities
-# -----------------------
-pacman -S p7zip unace unrar zip unzip sharutils uudeview arj cabextract file-roller
-
-
 
 echo "
 2.3 System configuration:
@@ -177,16 +172,12 @@ echo LANG=pt_BR.UTF-8 > /etc/locale.conf
 export LANG=pt_BR.UTF-8
 
 localectl set-keymap --no-convert br-latin1-us  
+localectl set-locale LANG="pt_BR.UTF-8"
 
-
-
-#nano /etc/modprobe.d/nobeep.conf
-# prevent load of pcspkr module on boot
-# blacklist pcspkr
-
-
-#mkinitcpio -p linux
-
+#setxkbmap -model pc104 -layout us_intl
+#echo '
+#setxkbmap -model pc104 -layout us_intl
+#' >> nano ~/.bashrc
 
 
 # Timezone setup
@@ -206,6 +197,7 @@ nano /etc/hosts
 # 127.0.1.1     localhost.localdomain   Inspiron
 
 sudo pacman -S iw wireless_tools wpa_supplicant wpa_actiond dialog
+sudo pacman -S ifplugd
 
 wifi-menu -o
 
@@ -223,27 +215,21 @@ Connection=ethernet
 IP=dhcp
 " > /etc/netctl/android-dhcp
 
+sudo netctl list
+sudo netctl start ethernet-dhcp
+sudo netctl start android-dhcp
+
 
 
 # Services setup
 # -----------------------
-systemctl enable sshd.service
-systemctl enable NetworkManager.service
-systemctl enable wpa_supplicant.service
-systemctl enable bluetooth.service
+#systemctl enable sshd.service
+#systemctl enable NetworkManager.service
+#systemctl enable wpa_supplicant.service
+#systemctl enable bluetooth.service
 #systemctl disable dhcpcd.service
 
 
-cp /etc/netctl/examples/ethernet-dhcp /etc/netctl
-nano /etc/netctl/ethernet-dhcp
-netctl list
-netctl start ethernet-dhcp
-netctl enable ethernet-dhcp
-wifi-menu -o
-
-
-systemctl enable dhcpcd@<INTERFACE>.service
-systemctl enable netctl-auto@<INTERFACE>.service
 
 
 echo "
@@ -285,57 +271,9 @@ git clone https://github.com/manoeldesouza/Cookbook
 
 
 
-# AUR setup
+# Compression Utilities
 # -----------------------
-sudo wifi-menu -o
-
-#sudo echo "
-#Description='A basic DHCP Android Tethering'
-#Interface=enp0s20f0u1
-#Connection=ethernet
-#IP=dhcp
-#" > /etc/netctl/Android
-
-#sudo netctl start Android
-#sudo netctl enable Android
-
-sudo pacman -S ifplugd
-
-#sudo systemctl enable netctl-ifplugd@Android.service
-
-
-# J5 Ethernet
-sudo dhcpcd enp0s20f0u1u4
-
-# Android Tethering
-sudo dhcpcd enp0s20f0u2
-	
-
-
-#sudo echo "
-#Description='A basic DHCP for J5 Ethernet adapter'
-#Interface=enp0s20f0u2u4
-#Connection=ethernet
-#IP=dhcp
-#" > /etc/netctl/J5-Ethernet
-
-#sudo netctl start J5-Ethernet
-#sudo netctl enable J5-Ethernet
-
-#sudo pacman -S ifplugd
-
-#sudo systemctl enable netctl-ifplugd@J5-Ethernet.service
-
-
-
-# Locale setup
-# -----------------------
-localectl set-locale LANG="pt_BR.UTF-8"
-
-setxkbmap -model pc104 -layout us_intl
-#echo '
-#setxkbmap -model pc104 -layout us_intl
-#' >> nano ~/.bashrc
+pacman -S p7zip unace unrar zip unzip sharutils uudeview arj cabextract file-roller
 
 
 
@@ -351,19 +289,10 @@ sudo pacman -Sy yaourt customizepkg rsync
 
 
 
-
-
-#sudo systemctl stop dhcpcd.service
-#sudo systemctl start sshd.service
-#sudo systemctl start wpa_supplicant.service
-#sudo systemctl start NetworkManager.service
-#sudo systemctl start bluetooth.service
-
-
-
 # Xorg setup
 # -----------------------
-sudo pacman -S xorg-server xorg-xinit xorg-server-utils
+sudo pacman -S xorg-server xorg-xinit 
+#xorg-server-utils
 sudo pacman -S mesa 
 sudo pacman -S xorg-twm xorg-xclock xterm
 sudo pacman -S xf86-video-intel lib32-intel-dri lib32-mesa lib32-libgl
@@ -470,7 +399,7 @@ sudo systemctl enable warsaw.service
 
 
 
-# SSH installation
+# Servers installation
 # -----------------------
 sudo pacman -S openssh
 
@@ -540,7 +469,9 @@ MimeType=text/x-matlab;
 StartupWMClass=MATLAB R2016b - academic use
 ' >  /usr/share/applications/matlab.desktop
 
-#xprop | grep WM_CLASS
+# OR:
+
+yaourt -S matlab
 
 
 
@@ -549,6 +480,9 @@ StartupWMClass=MATLAB R2016b - academic use
 wget https://repo.continuum.io/archive/Anaconda3-4.3.1-Linux-x86_64.sh
 chmod ugo+x Anaconda3-4.3.1-Linux-x86_64.sh
 ./Anaconda3-4.3.1-Linux-x86_64.sh
+
+# OR:
+yaourt -S anaconda
 
 
 
@@ -589,6 +523,108 @@ Fifth Step: Final configuration
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#sudo systemctl stop dhcpcd.service
+#sudo systemctl start sshd.service
+#sudo systemctl start wpa_supplicant.service
+#sudo systemctl start NetworkManager.service
+#sudo systemctl start bluetooth.service
+
+sudo wifi-menu -o
+
+#sudo echo "
+#Description='A basic DHCP Android Tethering'
+#Interface=enp0s20f0u1
+#Connection=ethernet
+#IP=dhcp
+#" > /etc/netctl/Android
+
+#sudo netctl start Android
+#sudo netctl enable Android
+
+sudo pacman -S ifplugd
+
+#sudo systemctl enable netctl-ifplugd@Android.service
+
+
+# J5 Ethernet
+sudo dhcpcd enp0s20f0u1u4
+
+# Android Tethering
+sudo dhcpcd enp0s20f0u2
+	
+
+
+#sudo echo "
+#Description='A basic DHCP for J5 Ethernet adapter'
+#Interface=enp0s20f0u2u4
+#Connection=ethernet
+#IP=dhcp
+#" > /etc/netctl/J5-Ethernet
+
+#sudo netctl start J5-Ethernet
+#sudo netctl enable J5-Ethernet
+
+#sudo pacman -S ifplugd
+
+#sudo systemctl enable netctl-ifplugd@J5-Ethernet.service
+
+
+
+
+
+#cp /etc/netctl/examples/ethernet-dhcp /etc/netctl
+#nano /etc/netctl/ethernet-dhcp
+
+#netctl enable ethernet-dhcp
+wifi-menu -o
+
+#systemctl enable dhcpcd@<INTERFACE>.service
+#systemctl enable netctl-auto@<INTERFACE>.service
 
 # sudo pacman –S mdm-display-manager
 # sudo systemctl start mdm-service
