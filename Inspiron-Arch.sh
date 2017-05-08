@@ -243,7 +243,7 @@ sudo netctl start android-dhcp
 
 # Terminal utilities
 # -----------------------
-sudo pacman -S mc vim lynx elinks gdisk hdparm tmux bash-completion
+sudo pacman -S mc vim lynx elinks gdisk hdparm tmux bash-completion ntfs-3g
 
 
 
@@ -375,10 +375,10 @@ sudo pacman -S firefox flashplugin chromium geany inkscape stellarium cheese rhy
 
 yaourt -S pamac-aur
 yaourt -S wps-office ttf-wps-fonts
-yaourt -S brackets
 yaourt -S entangle gradio mysql-workbench
 yaourt -S tilix
-
+yaourt -S sublime-text-dev
+yaourt -S brackets
 
 
 # Powerline configuration
@@ -530,6 +530,11 @@ MimeType=text/x-anaconda;
 # -----------------------
 yaourt -S rstudio-desktop	
 
+
+
+# PUC ICA Tools: Visual Studio
+# -----------------------
+yaourt -S visual-studio-code
 
 
 # i3 Window Manager installation
