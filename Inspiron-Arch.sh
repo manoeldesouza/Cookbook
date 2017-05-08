@@ -109,14 +109,8 @@ arch-chroot /mnt
 
 
 
-
 echo "
-Second Step: Boot loader and basic utilities
-===========================================================================================================
-"
-
-echo "
-2.1 Bootloader (Systemd) installation:
+1.6 Bootloader (Systemd) installation:
 "
 
 bootctl install
@@ -136,6 +130,43 @@ options root=/dev/sda3 rw
 
 
 
+# Package Management
+# -----------------------
+pacman -S git wget reflector
+ 
+reflector -c BR > /etc/pacman.d/mirrorlist 
+nano /etc/pacman.conf
+# uncomment Multilib
+
+[archlinuxfr]
+SigLevel = Never
+Server = http://repo.archlinux.fr/$arch
+
+sudo pacman -Sy yaourt customizepkg rsync
+
+
+
+# Network utilities
+# -----------------------
+sudo pacman -S iw wireless_tools wpa_supplicant wpa_actiond dialog
+sudo pacman -S ifplugd
+
+
+
+# Exit & Reboot
+# -----------------------
+exit 
+umount -R /mnt 
+reboot
+
+
+
+echo "
+Second Step: First Boot
+===========================================================================================================
+"
+
+
 echo "
 2.2 System installation:
 "
@@ -146,15 +177,6 @@ setfont ter-v16n
 echo "
 FONT=ter-v16n
 " >  /etc/vconsole.conf
-
-
-# Core utilities
-# -----------------------
-pacman -S git wget reflector mc vim lynx elinks gdisk hdparm tmux bash-completion
- 
-reflector -c BR > /etc/pacman.d/mirrorlist 
-nano /etc/pacman.d/mirrorlist
-# uncomment Multilib
 
 
 
@@ -180,6 +202,7 @@ localectl set-locale LANG="pt_BR.UTF-8"
 #' >> nano ~/.bashrc
 
 
+
 # Timezone setup
 # -----------------------
 timedatectl set-ntp true
@@ -195,9 +218,6 @@ hostnamectl set-hostname Inspiron
 
 nano /etc/hosts
 # 127.0.1.1     localhost.localdomain   Inspiron
-
-sudo pacman -S iw wireless_tools wpa_supplicant wpa_actiond dialog
-sudo pacman -S ifplugd
 
 wifi-menu -o
 
@@ -221,14 +241,9 @@ sudo netctl start android-dhcp
 
 
 
-# Services setup
+# Terminal utilities
 # -----------------------
-#systemctl enable sshd.service
-#systemctl enable NetworkManager.service
-#systemctl enable wpa_supplicant.service
-#systemctl enable bluetooth.service
-#systemctl disable dhcpcd.service
-
+sudo pacman -S mc vim lynx elinks gdisk hdparm tmux bash-completion
 
 
 
@@ -262,9 +277,13 @@ Third Step: First Boot
 ===========================================================================================================
 "
 
-# Cookbook download
+# Directories
 # -----------------------
-mkdir ~/Downloads
+
+xdg-user-dirs-update
+
+
+
 cd ~/Downloads
 #git clone https://github.com/erikdubois/archcinnamon
 #git clone https://github.com/erikdubois/Aureola
@@ -274,19 +293,7 @@ git clone https://github.com/manoeldesouza/Cookbook
 
 # Compression Utilities
 # -----------------------
-pacman -S p7zip unace unrar zip unzip sharutils uudeview arj cabextract file-roller
-
-
-
-# AUR setup
-# -----------------------
-sudo nano /etc/pacman.conf
-
-[archlinuxfr]
-SigLevel = Never
-Server = http://repo.archlinux.fr/$arch
-
-sudo pacman -Sy yaourt customizepkg rsync
+sudo pacman -S p7zip unace unrar zip unzip sharutils uudeview arj cabextract file-roller
 
 
 
@@ -296,7 +303,8 @@ sudo pacman -S xorg-server xorg-xinit
 #xorg-server-utils
 sudo pacman -S mesa 
 sudo pacman -S xorg-twm xorg-xclock xterm
-sudo pacman -S xf86-video-intel lib32-intel-dri lib32-mesa lib32-libgl
+sudo pacman -S xf86-video-intel
+# lib32-intel-dri lib32-mesa lib32-libgl
 
 
 
@@ -314,13 +322,28 @@ sudo pacman -S moc
 
 # Gnome setup
 # -----------------------
+sudo pacman -S xf86-input-synaptics
+sudo pacman -S ttf-dejavu ttf-droid
+yaourt -S fontconfig-ttf-ms-fonts
+
 sudo pacman -S gnome gnome-extra
 sudo pacman -S gnome-initial-setup
 sudo pacman -S gnome-shell-extensions
-yaourt -S gnome-shell-extension-openweather-git gnome-shell-extension-pixel-saver gnome-shell-extension-mediaplayer-git gnome-shell-user-themes
+yaourt -S gnome-shell-extension-openweather-git gnome-shell-extension-pixel-saver gnome-shell-extension-mediaplayer-git gnome-shell-extension-arch-update
+yaourt -S gnome-shell-extension-topicons-plus-git
+
+#gnome-shell-user-themes
 
 sudo pacman -S faenza-icon-theme faience-icon-theme arc-gtk-theme arc-icon-theme 
-yaourt -S mint-x-theme mint-y-theme moka-icon-theme faba-icon-theme paper-icon-theme paper-gtk-theme-git
+yaourt -S mint-y-theme moka-icon-theme faba-icon-theme paper-icon-theme paper-gtk-theme-git
+
+sudo nano /usr/shares/themes/index.theme
+# [Icon Theme]
+# Name=Arc
+# Inherits=Moka,Adwaita,gnome,hicolor
+# Comment=Arc Icon theme
+
+
 
 echo "
 exec gnome-session
@@ -455,6 +478,10 @@ sudo usermod -aG libvirtd,kvm `id -un`
 
 # Details:	https://wiki.archlinux.org/index.php/matlab
 
+sudo mkdir /usr/local/MATLAB
+sudo mkdir /usr/local/MATLAB/R2016b
+sudo chown -R manoel:users /usr/local/MATLAB
+
 sudo ln -s /usr/local/MATLAB/R2016b/bin/matlab /usr/local/bin
 sudo curl https://upload.wikimedia.org/wikipedia/commons/2/21/Matlab_Logo.png -o /usr/share/icons/matlab.png
 sudo echo '
@@ -480,6 +507,19 @@ StartupWMClass=MATLAB R2016b - academic use
 wget https://repo.continuum.io/archive/Anaconda3-4.3.1-Linux-x86_64.sh
 chmod ugo+x Anaconda3-4.3.1-Linux-x86_64.sh
 ./Anaconda3-4.3.1-Linux-x86_64.sh
+
+sudo curl https://upload.wikimedia.org/wikipedia/en/c/cd/Anaconda_Logo.png -o /usr/share/icons/anaconda.png
+sudo echo '
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Type=Application
+Icon=/usr/share/icons/anaconda.png
+Name=Anaconda Navigator
+Comment=Anaconda Navigator
+Exec=anaconda-navigator
+Categories=Development;
+MimeType=text/x-anaconda;
+' >  /usr/share/applications/anaconda.desktop
 
 # OR:
 # yaourt -S anaconda
