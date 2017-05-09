@@ -89,9 +89,17 @@ sudo dnf install -y transmission chromium
 sudo dnf groupinstall 'Development Tools'
 sudo dnf groupinstall 'C Development Tools and Libraries'
 
+
+
+# MySQL toolset
+# -----------------------
 sudo dnf install -y https://dev.mysql.com/get/mysql57-community-release-fc25-10.noarch.rpm
 sudo dnf install -y mysql-workbench
 
+
+
+# VisualStudio toolset
+# -----------------------
 sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
 sudo sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo'
 sudo dnf check-update
@@ -238,6 +246,7 @@ StartupWMClass=MATLAB R2016b - academic use
 
 # Anaconda
 # -----------------------
+sudo dnf install -y gcc-fortran
 cd ~/Downloads
 wget https://repo.continuum.io/archive/Anaconda3-4.3.1-Linux-x86_64.sh
 chmod ugo+x Anaconda3-4.3.1-Linux-x86_64.sh
@@ -255,6 +264,12 @@ Exec=anaconda-navigator
 Categories=Development;
 MimeType=text/x-anaconda;
 ' >  /usr/share/applications/anaconda.desktop
+
+
+
+#conda install conda-build
+conda install -c r r-essentials
+conda install -c r r-e1071=1.6_7
 
 
 
