@@ -9,6 +9,7 @@ echo "
 "
 
 '
+Reference Links:
 
 http://www.blogopcaolinux.com.br/2016/11/Guia-de-instalacao-do-Fedora-25-Workstation.html
 http://www.blogopcaolinux.com.br/2016/11/Guia-de-pos-instalacao-do-Fedora-25-Workstation.html
@@ -19,6 +20,7 @@ http://www.blogopcaolinux.com.br/2016/09/instalando-oracle-java-jre-no-fedora.ht
 https://www.if-not-true-then-false.com/2010/install-virtualbox-with-yum-on-fedora-centos-red-hat-rhel/
 http://www.fosslinux.com/919/install-wps-office-on-fedora.htm
 https://code.visualstudio.com/docs/setup/linux
+https://fedoramagazine.org/getting-started-i3-window-manager/
 '
 
 
@@ -178,7 +180,7 @@ sudo rpm -i https://downloads.sourceforge.net/project/mscorefonts2/rpms/msttcore
 sudo mkdir -p /usr/share/fonts/wps-office
 cd /usr/share/fonts/wps-office
 sudo git clone https://github.com/udoyen/wps-fonts
-sudo wget https://dl.dropboxusercontent.com/u/31525164/wps_symbol_fonts.zip
+#sudo wget https://dl.dropboxusercontent.com/u/31525164/wps_symbol_fonts.zip
 sudo unzip wps_symbol_fonts.zip
 sudo fc-cache -vf
 
@@ -202,3 +204,57 @@ su -c "dnf group install with-optional virtualization"
 su -c "systemctl start libvirtd"
 su -c "systemctl enable libvirtd"
 sudo usermod -aG libvirtd,kvm `id -un`
+
+
+
+# i3 Window Manager
+# -----------------------
+sudo dnf install -y i3 i3status dmenu i3lock xbacklight feh conky
+
+
+
+# Matlab
+# -----------------------
+sudo mkdir /usr/local/MATLAB
+sudo mkdir /usr/local/MATLAB/R2016b
+sudo chown -R manoel:manoel /usr/local/MATLAB
+
+sudo ln -s /usr/local/MATLAB/R2016b/bin/matlab /usr/local/bin
+sudo curl https://upload.wikimedia.org/wikipedia/commons/2/21/Matlab_Logo.png -o /usr/share/icons/matlab.png
+sudo echo '
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Type=Application
+Icon=/usr/share/icons/matlab.png
+Name=MATLAB
+Comment=Start MATLAB - The Language of Technical Computing
+Exec=matlab -desktop
+Categories=Development;
+MimeType=text/x-matlab;
+StartupWMClass=MATLAB R2016b - academic use
+' >  /usr/share/applications/matlab.desktop
+
+
+
+# Anaconda
+# -----------------------
+cd ~/Downloads
+wget https://repo.continuum.io/archive/Anaconda3-4.3.1-Linux-x86_64.sh
+chmod ugo+x Anaconda3-4.3.1-Linux-x86_64.sh
+./Anaconda3-4.3.1-Linux-x86_64.sh
+
+sudo curl https://upload.wikimedia.org/wikipedia/en/c/cd/Anaconda_Logo.png -o /usr/share/icons/anaconda.png
+sudo echo '
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Type=Application
+Icon=/usr/share/icons/anaconda.png
+Name=Anaconda Navigator
+Comment=Anaconda Navigator
+Exec=anaconda-navigator
+Categories=Development;
+MimeType=text/x-anaconda;
+' >  /usr/share/applications/anaconda.desktop
+
+
+
