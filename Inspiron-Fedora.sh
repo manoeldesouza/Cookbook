@@ -46,12 +46,11 @@ sudo dnf update
 # Core Utilities Management
 # -----------------------
 sudo dnf install -y p7zip p7zip-plugins lzip cabextract unrar unzip
-sudo dnf install -y mc tmux
+sudo dnf install -y mc tmux bc
 
 #sudo dnf install -y tilix
 sudo dnf copr enable heikoada/terminix
-sudo dnf install -y terminix
-
+sudo dnf install -y terminix gnome-terminal-nautilus
 
 
 # RPM Fusion
@@ -137,12 +136,21 @@ sudo dnf install -y moka-icon-theme
 sudo dnf config-manager --add-repo http://download.opensuse.org/repositories/home:snwh:paper/Fedora_25/home:snwh:paper.repo
 sudo dnf install -y paper-gtk-theme paper-icon-theme
 
+
+
+# Neofetch
+# -----------------------
 sudo dnf copr enable konimex/neofetch
 sudo dnf install -y neofetch
 echo "
 neofetch
 " >> ~/.bashrc
 
+
+
+# Power-line
+# -----------------------
+#	https://fedoramagazine.org/add-power-terminal-powerline/
 sudo dnf install -y powerline
 echo "
 
@@ -177,7 +185,7 @@ sudo dnf config-manager --add-repo https://copr.fedorainfracloud.org/coprs/mosqu
 sudo dnf config-manager --add-repo https://copr.fedorainfracloud.org/coprs/heikoada/gradio/repo/fedora-25/heikoada-gradio-fedora-25.repo
 
 sudo dnf install -y nautilus-dropbox python-gpgme
-sudo dnf install -y gimp gnome-multi-writer simple-scan youtube-dl geany inkscape stellarium cheese scribus blender shotwell digikam dia cups-pdf evolution bluefish darktable gnome-music conky conky-manager filezilla epiphany geary eog gparted octave
+sudo dnf install -y gimp gnome-multi-writer simple-scan youtube-dl geany inkscape stellarium cheese scribus blender shotwell digikam dia cups-pdf evolution bluefish darktable gnome-music conky conky-manager filezilla epiphany geary eog gparted octave entangle
 sudo dnf install -y gradio
 
 
@@ -217,6 +225,7 @@ sudo usermod -aG libvirtd,kvm `id -un`
 
 # i3 Window Manager
 # -----------------------
+#	https://fedoramagazine.org/getting-started-i3-window-manager/
 sudo dnf install -y i3 i3status dmenu i3lock xbacklight feh conky
 
 
@@ -265,11 +274,32 @@ Categories=Development;
 MimeType=text/x-anaconda;
 ' >  /usr/share/applications/anaconda.desktop
 
-
-
 #conda install conda-build
 conda install -c r r-essentials
 conda install -c r r-e1071=1.6_7
+
+
+
+# Canopy
+# -----------------------
+https://store.enthought.com/downloads/installer/17/
+
+
+
+# Wireshark
+# -----------------------
+#	https://fedoramagazine.org/how-to-install-wireshark-fedora/
+sudo dnf install wireshark-qt
+sudo usermod -a -G wireshark manoel
+
+
+
+# Powertop
+# -----------------------
+#	https://fedoramagazine.org/saving-laptop-power-with-powertop/
+sudo dnf install powertop
+sudo systemctl start powertop.service
+sudo systemctl enable powertop.service
 
 
 
