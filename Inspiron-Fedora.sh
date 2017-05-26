@@ -280,6 +280,13 @@ conda install -c r r-e1071=1.6_7
 
 
 
+# PYCharm
+# -----------------------
+sudo dnf copr enable phracek/PyCharm 
+sudo dnf install -y pycharm-community
+
+
+
 # Canopy
 # -----------------------
 https://store.enthought.com/downloads/installer/17/
