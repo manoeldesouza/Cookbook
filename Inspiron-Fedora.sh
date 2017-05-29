@@ -47,6 +47,7 @@ sudo dnf update
 # -----------------------
 sudo dnf install -y p7zip p7zip-plugins lzip cabextract unrar unzip
 sudo dnf install -y mc tmux bc
+sudo dnf install -y fuse-exfat
 
 #sudo dnf install -y tilix
 sudo dnf copr enable heikoada/terminix
@@ -284,6 +285,40 @@ conda install -c r r-e1071=1.6_7
 # -----------------------
 sudo dnf copr enable phracek/PyCharm 
 sudo dnf install -y pycharm-community
+
+
+
+# Sublime Text 3
+# -----------------------
+#   https://gist.github.com/smutek/043241441ea1170d675ab0f0179be03e
+wget https://download.sublimetext.com/sublime_text_3_build_3126_x64.tar.bz2
+tar -jxvf sublime_text_3_build_3126_x64.tar.bz2
+sudo mv sublime_text_3 /opt
+
+
+sudo su -c 'echo "
+[Desktop Entry]
+Name=Sublime Text 3
+Comment=Edit text files
+Exec=/opt/sublime-text-3/sublime_text
+Icon=/opt/sublime-text-3/Icon/128x128/sublime-text.png
+Terminal=false
+Type=Application
+Encoding=UTF-8
+Categories=Utility;TextEditor;
+" > /usr/share/applications/sublime-text-3.desktop'
+
+
+
+echo '#!/bin/sh
+if [ -z ${1} == "--help" ]; then
+	    /opt/sublime-text-3/sublime_text --help
+    else
+	        /opt/sublime-text-3/sublime_text $@ > /dev/null 2>&1 &
+	fi'  > "/usr/local/bin/subl"
+
+chmod +x "/usr/local/bin/subl"
+echo "${SHORTCUT}" > "/usr/share/applications/sublime-text-3.desktop"
 
 
 
