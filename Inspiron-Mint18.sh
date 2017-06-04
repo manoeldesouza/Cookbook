@@ -22,13 +22,15 @@ sudo apt-add-repository -y ppa:noobslab/themes
 sudo add-apt-repository -y ppa:teejee2008/ppa
 sudo add-apt-repository -y ppa:danielrichter2007/grub-customizer
 sudo add-apt-repository -y ppa:dawidd0811/neofetch
+sudo add-apt-repository -y ppa:webupd8team/terminix
+
 
 echo "Updating & upgrading..."
 sudo apt-get update && sudo apt-get upgrade -y
 
 
 echo "Installing System Utilities..."
-sudo apt-get install -y gparted mc git build-essential linux-headers-generic linux-headers-$(uname -r) dkms fuse exfat-fuse exfat-utils ubuntu-restricted-extras software-properties-common smartmontools hddtemp tasksel htop lynx-cur terminator gddrescue htop tmux elinks grub-customizer vim emacs neofetch    
+sudo apt-get install -y gparted mc git build-essential linux-headers-generic linux-headers-$(uname -r) dkms fuse exfat-fuse exfat-utils ubuntu-restricted-extras software-properties-common smartmontools hddtemp tasksel htop lynx-cur terminator gddrescue htop tmux elinks grub-customizer vim emacs neofetch tilix ppa-purge
 
 git clone https://github.com/manoeldesouza/cookbook
 sudo cp ~/Downloads/cookbook/linuxmint.png /usr/share/cinnamon/theme
@@ -83,6 +85,13 @@ echo "Installing Desktop applications..."
 sudo apt-get install -y skype dropbox geany inkscape stellarium cheese shutter rhythmbox scribus blender darktable gnome-music shotwell digikam dia cups-pdf evolution chromium-browser gimp tomahawk musique wine playonlinux pitivi
 
 
+wget http://kdl.cc.ksosoft.com/wps-community/download/fonts/wps-office-fonts_1.0_all.deb
+wget http://kdl.cc.ksosoft.com/wps-community/download/a21/wps-office_10.1.0.5672~a21_amd64.deb
+
+wget https://www.dropbox.com/s/lfy4hvq95ilwyw5/wps_symbol_fonts.zip
+extract to ~/.fonts
+
+
 echo "Installing Desktop utilities..."
 sudo apt-get install -y conky-all conky conky-manager docky ttf-mscorefonts-installer
 
@@ -100,13 +109,38 @@ echo "Installing Programming Utilities..."
 sudo apt-get install -y perl-doc libdbd-mysql-perl mysql-workbench sublime-text bluefish brackets 
 
 
+
+# PYCharm
+# -----------------------
+sudo add-apt-repository ppa:ubuntu-desktop/ubuntu-make
+sudo apt-get update
+sudo apt-get install ubuntu-make
+umake ide pycharm
+
+sudo add-apt-repository -y ppa:mystic-mirage/pycharm
+sudo apt-get update
+sudo apt-get install -y pycharm-community
+
+
+IntelliJ IDEA
+# -----------------------
+sudo add-apt-repository -y ppa:mmk2410/intellij-idea-community
+sudo apt-get update
+sudo apt-get install intellij-idea-community
+
+
+
 echo "Python Utilities..."
-sudo apt-get install -y python-pip python-dev ipython ipython-doc ipython-notebook ipython3 ipython3-notebook python-setuptools python3-setuptools python-virtualenv python3-virtualenv python3-pip python3-dev libxml2-dev libxslt-dev libffi-dev libssl-dev libxml2-dev libxslt1-dev libjpeg8-dev zlib1g-dev linuxbrew-wrapper python3-tk python-tk
+sudo apt-get install -y python-pip python-dev ipython ipython-doc ipython-notebook ipython3 ipython3-notebook python-setuptools python3-setuptools python-virtualenv python3-virtualenv python3-pip python3-dev libxml2-dev libxslt-dev libffi-dev libssl-dev libxml2-dev libxslt1-dev libjpeg8-dev zlib1g-dev linuxbrew-wrapper python3-tk python-tk virtualenv
+
+pip install virtualenv
+sudo apt install redis-server
+
 
 
 echo "Installing standard Data Science tools..."
 sudo apt-get install -y octave scilab weka weka-doc 
-sudo apt-get install -y python-numpy python-numpy-doc python-numpy-dbg python3-numpy python3-numpydoc python3-numpy-dbg python-bs4 python3-bs4 python-sklearn python3-sklearn python-sklearn-doc python-sklearn-pandas python3-sklearn-pandas python-pandas python3-pandas python-django python3-django 
+sudo apt-get install -y python-numpy python-numpy-doc python-numpy-dbg python3-numpy python3-numpydoc python3-numpy-dbg python-bs4 python3-bs4 python-sklearn python3-sklearn python-sklearn-doc python-sklearn-pandas python3-sklearn-pandas python-pandas python3-pandas python-django python3-django python3-venv
 
 pip install -U cryptography scikit-learn django pandas setuptools wheel seaborn pandas-datareader quandl
 pip3 install -U cryptography scikit-learn django pandas setuptools wheel seaborn pandas-datareader quandl

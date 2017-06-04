@@ -107,6 +107,12 @@ sudo dnf install -y code
 
 
 
+# Perl
+# -----------------------
+sudo dnf install perl-Switch
+
+
+
 # Desktop customization
 # -----------------------
 sudo dnf install -y gnome-tweak-tool dconf-editor gtk3-devel
