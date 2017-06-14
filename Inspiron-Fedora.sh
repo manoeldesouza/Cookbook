@@ -99,6 +99,8 @@ sudo dnf groupinstall 'C Development Tools and Libraries'
 
 # MySQL toolset
 # -----------------------
+#	https://www.if-not-true-then-false.com/2010/install-mysql-on-fedora-centos-red-hat-rhel/
+#	https://support.rackspace.com/how-to/mysql-resetting-a-lost-mysql-root-password/
 sudo dnf install MySQL-python
 sudo dnf install python-devel python3-devel mysql-devel MySQL-python MySQL-python3 redhat-rpm-config
 sudo dnf install -y https://dev.mysql.com/get/mysql57-community-release-fc25-10.noarch.rpm
@@ -325,12 +327,13 @@ Categories=Utility;TextEditor;
 
 
 
-echo '#!/bin/sh
+echo '
+#!/bin/sh
 if [ -z ${1} == "--help" ]; then
-	    /opt/sublime-text-3/sublime_text --help
-    else
-	        /opt/sublime-text-3/sublime_text $@ > /dev/null 2>&1 &
-	fi'  > "/usr/local/bin/subl"
+	/opt/sublime-text-3/sublime_text --help
+else
+	/opt/sublime-text-3/sublime_text $@ > /dev/null 2>&1 &
+fi'  > "/usr/local/bin/subl"
 
 chmod +x "/usr/local/bin/subl"
 echo "${SHORTCUT}" > "/usr/share/applications/sublime-text-3.desktop"
