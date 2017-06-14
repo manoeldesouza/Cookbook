@@ -143,6 +143,16 @@ sudo dnf install -y moka-icon-theme
 sudo dnf config-manager --add-repo http://download.opensuse.org/repositories/home:snwh:paper/Fedora_25/home:snwh:paper.repo
 sudo dnf install -y paper-gtk-theme paper-icon-theme
 
+sudo dnf install f25-backgrounds-extras-gnome
+sudo dnf install f24-backgrounds-gnome
+sudo dnf install f24-backgrounds-extras-gnome
+sudo dnf install f23-backgrounds-gnome
+sudo dnf install f23-backgrounds-extras-gnome
+sudo dnf install f22-backgrounds-gnome
+sudo dnf install f22-backgrounds-extras-gnome
+sudo dnf install f21-backgrounds-gnome
+sudo dnf install f21-backgrounds-extras-gnome
+
 
 
 # Neofetch

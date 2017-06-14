@@ -50,6 +50,115 @@ echo "Installing Archive Utilities..."
 sudo pacman -S unace sharutils arj lzip cabextract p7zip unrar
 
 
+
+
+
+
+
+
+
+# Gnome Desktop setup
+# -----------------------
+sudo pacman -S ttf-dejavu ttf-droid
+yaourt -S fontconfig-ttf-ms-fonts
+
+sudo pacman -S gnome gnome-extra
+sudo pacman -S gnome-initial-setup
+sudo pacman -S gnome-shell-extensions
+yaourt -S gnome-shell-extension-openweather-git gnome-shell-extension-pixel-saver gnome-shell-extension-mediaplayer-git gnome-shell-extension-arch-update
+yaourt -S gnome-shell-extension-topicons-plus-git
+
+sudo pacman -S faenza-icon-theme faience-icon-theme arc-gtk-theme arc-icon-theme 
+yaourt -S mint-y-theme moka-icon-theme faba-icon-theme paper-icon-theme paper-gtk-theme-git
+
+sudo nano /usr/share/themes/Arc/index.theme
+# [Icon Theme]
+# Name=Arc
+# Inherits=Moka,Adwaita,gnome,hicolor
+# Comment=Arc Icon theme
+
+
+
+# Applications installation
+# -----------------------
+sudo pacman -S firefox flashplugin chromium geany inkscape stellarium cheese rhythmbox scribus blender docky shotwell digikam dia cups-pdf evolution bluefish gimp darktable gnome-music conky conky-manager vlc filezilla epiphany geary gnome-multi-writer simple-scan dropbox eog terminator transmission-cli transmission-gtk gparted libreoffice totem youtube-dl octave
+
+yaourt -S pamac-aur
+yaourt -S wps-office ttf-wps-fonts
+yaourt -S entangle gradio mysql-workbench
+yaourt -S tilix
+
+
+
+# Programming
+# -----------------------
+sudo pip install virtualenv
+yaourt -S sublime-text-dev
+yaourt -S brackets
+yaourt pycharm
+yaourt -S pycharm-community
+
+sudo pacman -S python-setuptools
+sudo pacman -S python-wheel
+
+
+
+# Data Science Tools: Matlab
+# -----------------------
+# Install matlab: www.mathworks.com
+
+# Details:	https://wiki.archlinux.org/index.php/matlab
+
+sudo mkdir /usr/local/MATLAB
+sudo mkdir /usr/local/MATLAB/R2016b
+sudo chown -R manoel:users /usr/local/MATLAB
+
+sudo ln -s /usr/local/MATLAB/R2016b/bin/matlab /usr/local/bin
+sudo curl https://upload.wikimedia.org/wikipedia/commons/2/21/Matlab_Logo.png -o /usr/share/icons/matlab.png
+sudo echo '
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Type=Application
+Icon=/usr/share/icons/matlab.png
+Name=MATLAB
+Comment=Start MATLAB - The Language of Technical Computing
+Exec=matlab -desktop
+Categories=Development;
+MimeType=text/x-matlab;
+StartupWMClass=MATLAB R2016b - academic use
+' >  /usr/share/applications/matlab.desktop
+
+
+
+# Data Science Tools: Anaconda
+# -----------------------
+wget https://repo.continuum.io/archive/Anaconda3-4.3.1-Linux-x86_64.sh
+chmod ugo+x Anaconda3-4.3.1-Linux-x86_64.sh
+./Anaconda3-4.3.1-Linux-x86_64.sh
+
+sudo curl https://upload.wikimedia.org/wikipedia/en/c/cd/Anaconda_Logo.png -o /usr/share/icons/anaconda.png
+sudo echo '
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Type=Application
+Icon=/usr/share/icons/anaconda.png
+Name=Anaconda Navigator
+Comment=Anaconda Navigator
+Exec=anaconda-navigator
+Categories=Development;
+MimeType=text/x-anaconda;
+' >  /usr/share/applications/anaconda.desktop
+
+
+
+# i3 Window Manager installation
+# -----------------------
+sudo pacman -S i3 i3-wm dmenu i3status i3lock i3blocks
+
+
+
+
+
 echo "Installing Networking Utilities..."
 #sudo pacman -S aircrack-ng dsniff driftnet etherwake wireshark iptraf
 sudo pacman -S wireshark-cli wireshark-gtk

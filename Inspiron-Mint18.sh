@@ -23,7 +23,7 @@ sudo add-apt-repository -y ppa:teejee2008/ppa
 sudo add-apt-repository -y ppa:danielrichter2007/grub-customizer
 sudo add-apt-repository -y ppa:dawidd0811/neofetch
 sudo add-apt-repository -y ppa:webupd8team/terminix
-
+sudo add-apt-repository -y ppa:haecker-felix/gradio-daily
 
 echo "Updating & upgrading..."
 sudo apt-get update && sudo apt-get upgrade -y
@@ -93,7 +93,7 @@ extract to ~/.fonts
 
 
 echo "Installing Desktop utilities..."
-sudo apt-get install -y conky-all conky conky-manager docky ttf-mscorefonts-installer
+sudo apt-get install -y conky-all conky conky-manager docky ttf-mscorefonts-installer gradio
 
 
 echo "Installing Games..."
@@ -131,16 +131,26 @@ sudo apt-get install intellij-idea-community
 
 
 echo "Python Utilities..."
-sudo apt-get install -y python-pip python-dev ipython ipython-doc ipython-notebook ipython3 ipython3-notebook python-setuptools python3-setuptools python-virtualenv python3-virtualenv python3-pip python3-dev libxml2-dev libxslt-dev libffi-dev libssl-dev libxml2-dev libxslt1-dev libjpeg8-dev zlib1g-dev linuxbrew-wrapper python3-tk python-tk virtualenv
+sudo apt-get install -y python-pip python-dev ipython ipython-doc ipython-notebook ipython3 ipython3-notebook python-setuptools python3-setuptools python-virtualenv python3-virtualenv python3-pip python3-dev libxml2-dev libxslt-dev libffi-dev libssl-dev libxml2-dev libxslt1-dev libjpeg8-dev zlib1g-dev linuxbrew-wrapper python3-tk python-tk virtualenv 
 
 pip install virtualenv
 sudo apt install redis-server
+
+pip install channels
+pip3 install channels
+sudo apt install python-dev libmysqlclient-dev
+sudo pip install ConfigParser
+sudo pip install mysqlclient
+sudo apt-get install mysql-server
+sudo pip install psutil
 
 
 
 echo "Installing standard Data Science tools..."
 sudo apt-get install -y octave scilab weka weka-doc 
 sudo apt-get install -y python-numpy python-numpy-doc python-numpy-dbg python3-numpy python3-numpydoc python3-numpy-dbg python-bs4 python3-bs4 python-sklearn python3-sklearn python-sklearn-doc python-sklearn-pandas python3-sklearn-pandas python-pandas python3-pandas python-django python3-django python3-venv
+
+
 
 pip install -U cryptography scikit-learn django pandas setuptools wheel seaborn pandas-datareader quandl
 pip3 install -U cryptography scikit-learn django pandas setuptools wheel seaborn pandas-datareader quandl
