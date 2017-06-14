@@ -99,6 +99,8 @@ sudo dnf groupinstall 'C Development Tools and Libraries'
 
 # MySQL toolset
 # -----------------------
+sudo dnf install MySQL-python
+sudo dnf install python-devel python3-devel mysql-devel MySQL-python MySQL-python3 redhat-rpm-config
 sudo dnf install -y https://dev.mysql.com/get/mysql57-community-release-fc25-10.noarch.rpm
 sudo dnf install -y mysql-workbench
 
@@ -122,6 +124,12 @@ sudo dnf install perl-Switch
 # -----------------------
 sudo dnf install -y gnome-tweak-tool dconf-editor gtk3-devel
 
+sudo dnf config-manager --add-repo http://download.opensuse.org/repositories/home:snwh:moka/Fedora_25/home:snwh:moka.repo
+sudo dnf install -y moka-icon-theme
+
+sudo dnf config-manager --add-repo http://download.opensuse.org/repositories/home:snwh:paper/Fedora_25/home:snwh:paper.repo
+sudo dnf install -y paper-gtk-theme paper-icon-theme
+
 sudo dnf install -y arc-theme
 git clone https://github.com/horst3180/arc-icon-theme --depth 1 && cd arc-icon-theme
 ./autogen.sh --prefix=/usr
@@ -141,12 +149,6 @@ git checkout 1.9
 cp -r pixel-saver@deadalnix.me -t ~/.local/share/gnome-shell/extensions
 gnome-shell-extension-tool -e pixel-saver@deadalnix.me
 cd ..
-
-sudo dnf config-manager --add-repo http://download.opensuse.org/repositories/home:snwh:moka/Fedora_25/home:snwh:moka.repo
-sudo dnf install -y moka-icon-theme
-
-sudo dnf config-manager --add-repo http://download.opensuse.org/repositories/home:snwh:paper/Fedora_25/home:snwh:paper.repo
-sudo dnf install -y paper-gtk-theme paper-icon-theme
 
 sudo dnf install -y f25-backgrounds-extras-gnome f24-backgrounds-gnome f24-backgrounds-extras-gnome f23-backgrounds-gnome f23-backgrounds-extras-gnome f22-backgrounds-gnome f22-backgrounds-extras-gnome f21-backgrounds-gnome f21-backgrounds-extras-gnome
 
