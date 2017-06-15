@@ -36,6 +36,7 @@ git clone hhtps://github.com/manoeldesouza/cookbook
 sudo dnf install -y deltarpm
 sudo dnf install -y nano
 sudo dnf install -y yumex-dnf
+sudo dnf install -y blivet-gui
 
 sudo nano /etc/dnf/dnf.conf
  deltarpm=1
