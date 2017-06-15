@@ -37,27 +37,9 @@ sudo dnf install -y deltarpm
 sudo dnf install -y nano
 sudo dnf install -y yumex-dnf
 
-su -c echo 'deltarpm=1' >> /etc/dnf/dnf.conf
+sudo nano /etc/dnf/dnf.conf
+ deltarpm=1
 
-sudo dnf update
-
-
-
-# Fedy
-# -----------------------
-curl https://www.folkswithhats.org/installer | sudo bash
-
-
-
-# Core Utilities Management
-# -----------------------
-sudo dnf install -y p7zip p7zip-plugins lzip cabextract unrar unzip
-sudo dnf install -y mc tmux bc
-sudo dnf install -y fuse-exfat
-
-#sudo dnf install -y tilix
-sudo dnf copr enable heikoada/terminix
-sudo dnf install -y terminix gnome-terminal-nautilus
 
 
 # RPM Fusion
@@ -70,10 +52,36 @@ sudo rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-rpmfusion-nonfree-fedora-25
 
 
 
+# Fedy
+# -----------------------
+curl https://www.folkswithhats.org/installer | sudo bash
+
+
+
+# System Update
+# -----------------------
+sudo dnf update
+
+
+
+# Core Utilities Management
+# -----------------------
+sudo dnf install -y gnome-tweak-tool
+sudo dnf install -y p7zip p7zip-plugins lzip cabextract unrar unzip
+sudo dnf install -y mc tmux bc
+sudo dnf install -y fuse-exfat
+
+sudo dnf copr enable heikoada/terminix
+sudo dnf install -y tilix
+#sudo dnf install -y terminix gnome-terminal-nautilus
+
+
+
+
 # Codecs & Multimedia
 # -----------------------
-sudo dnf install gstreamer1-plugins-ugly gstreamer1-plugin-mpg123 mpg123-libs
-sudo dnf install amrnb amrwb faad2 flac ffmpeg gpac-libs lame libfc14audiodecoder mencoder mplayer x264 x265 gstreamer-plugins-espeak gstreamer-plugins-fc gstreamer-rtsp gstreamer-plugins-good gstreamer-plugins-bad gstreamer-plugins-bad-free-extras gstreamer-plugins-bad-nonfree gstreamer-plugins-ugly gstreamer-ffmpeg gstreamer1-plugins-base gstreamer1-libav gstreamer1-plugins-bad-free-extras gstreamer1-plugins-bad-freeworld gstreamer1-plugins-base-tools gstreamer1-plugins-good-extras gstreamer1-plugins-ugly gstreamer1-plugins-bad-free gstreamer1-plugins-good
+sudo dnf install -y gstreamer1-plugins-ugly gstreamer1-plugin-mpg123 mpg123-libs
+sudo dnf install -y amrnb amrwb faad2 flac ffmpeg gpac-libs lame libfc14audiodecoder mencoder mplayer x264 x265 gstreamer-plugins-espeak gstreamer-plugins-fc gstreamer-rtsp gstreamer-plugins-good gstreamer-plugins-bad gstreamer-plugins-bad-free-extras gstreamer-plugins-bad-nonfree gstreamer-plugins-ugly gstreamer-ffmpeg gstreamer1-plugins-base gstreamer1-libav gstreamer1-plugins-bad-free-extras gstreamer1-plugins-bad-freeworld gstreamer1-plugins-base-tools gstreamer1-plugins-good-extras gstreamer1-plugins-ugly gstreamer1-plugins-bad-free gstreamer1-plugins-good
 
 sudo rpm --import http://negativo17.org/repos/RPM-GPG-KEY-slaanesh
 sudo dnf config-manager --add-repo=http://negativo17.org/repos/fedora-multimedia.repo
@@ -118,7 +126,7 @@ sudo dnf install -y code
 
 # Perl
 # -----------------------
-sudo dnf install perl-Switch
+sudo dnf install -y perl-Switch
 
 
 
@@ -140,6 +148,8 @@ cd ..
 
 sudo dnf install -y gnome-shell-extension-media-player-indicator gnome-shell-extension-openweather
 
+sudo dnf install -y gnome-shell-extension-topicons-plus
+
 git clone https://github.com/phocean/TopIcons-plus.git
 cd TopIcons-plus
 make install
@@ -148,7 +158,7 @@ cd ..
 git clone https://github.com/deadalnix/pixel-saver.git
 cd pixel-saver
 git checkout 1.9
-cp -r pixel-saver@deadalnix.me -t ~/.local/share/gnome-shell/extensions
+sudo cp -r pixel-saver@deadalnix.me -t /usr/share/gnome-shell/extensions
 gnome-shell-extension-tool -e pixel-saver@deadalnix.me
 cd ..
 
@@ -203,7 +213,7 @@ sudo dnf config-manager --add-repo https://copr.fedorainfracloud.org/coprs/mosqu
 sudo dnf config-manager --add-repo https://copr.fedorainfracloud.org/coprs/heikoada/gradio/repo/fedora-25/heikoada-gradio-fedora-25.repo
 
 sudo dnf install -y nautilus-dropbox python-gpgme
-sudo dnf install -y gimp gnome-multi-writer simple-scan youtube-dl geany inkscape stellarium cheese scribus blender shotwell digikam dia cups-pdf evolution bluefish darktable gnome-music conky conky-manager filezilla epiphany geary eog gparted octave entangle
+sudo dnf install -y gimp gnome-multi-writer simple-scan youtube-dl geany inkscape stellarium cheese scribus blender shotwell digikam dia cups-pdf evolution bluefish darktable gnome-music conky conky-manager filezilla epiphany geary eog gparted octave entangle brasero
 sudo dnf install -y gradio
 
 
@@ -217,6 +227,7 @@ sudo git clone https://github.com/udoyen/wps-fonts
 #sudo wget https://dl.dropboxusercontent.com/u/31525164/wps_symbol_fonts.zip
 sudo unzip wps_symbol_fonts.zip
 sudo fc-cache -vf
+cd ~/Downloads
 
 
 
@@ -225,18 +236,19 @@ sudo fc-cache -vf
 cd /etc/yum.repos.d/
 sudo wget http://download.virtualbox.org/virtualbox/rpm/fedora/virtualbox.repo
 sudo dnf update
-sudo dnf install binutils gcc make patch libgomp glibc-headers glibc-devel kernel-headers kernel-devel dkms
-sudo dnf install VirtualBox-5.1
+sudo dnf install -y binutils gcc make patch libgomp glibc-headers glibc-devel kernel-headers kernel-devel dkms
+sudo dnf install -y VirtualBox-5.1
 sudo /usr/lib/virtualbox/vboxdrv.sh setup
 usermod -a -G vboxusers `id -un`
+cd ~/Downloads
 
 
 
 # Virtual Manager
 # -----------------------
-su -c "dnf group install with-optional virtualization"
-su -c "systemctl start libvirtd"
-su -c "systemctl enable libvirtd"
+sudo dnf group install with-optional virtualization
+sudo systemctl start libvirtd
+sudo systemctl enable libvirtd
 sudo usermod -aG libvirtd,kvm `id -un`
 
 
@@ -275,9 +287,6 @@ StartupWMClass=MATLAB R2016b - academic use
 # -----------------------
 sudo dnf install -y gcc-fortran
 cd ~/Downloads
-wget https://repo.continuum.io/archive/Anaconda3-4.3.1-Linux-x86_64.sh
-chmod ugo+x Anaconda3-4.3.1-Linux-x86_64.sh
-./Anaconda3-4.3.1-Linux-x86_64.sh
 
 sudo curl https://upload.wikimedia.org/wikipedia/en/c/cd/Anaconda_Logo.png -o /usr/share/icons/anaconda.png
 sudo echo '
@@ -305,38 +314,12 @@ sudo dnf install -y pycharm-community
 
 
 
-# Sublime Text 3
+# FEDY:
 # -----------------------
-#   https://gist.github.com/smutek/043241441ea1170d675ab0f0179be03e
-wget https://download.sublimetext.com/sublime_text_3_build_3126_x64.tar.bz2
-tar -jxvf sublime_text_3_build_3126_x64.tar.bz2
-sudo mv sublime_text_3 /opt
-
-
-sudo su -c 'echo "
-[Desktop Entry]
-Name=Sublime Text 3
-Comment=Edit text files
-Exec=/opt/sublime-text-3/sublime_text
-Icon=/opt/sublime-text-3/Icon/128x128/sublime-text.png
-Terminal=false
-Type=Application
-Encoding=UTF-8
-Categories=Utility;TextEditor;
-" > /usr/share/applications/sublime-text-3.desktop'
-
-
-
-echo '
-#!/bin/sh
-if [ -z ${1} == "--help" ]; then
-	/opt/sublime-text-3/sublime_text --help
-else
-	/opt/sublime-text-3/sublime_text $@ > /dev/null 2>&1 &
-fi'  > "/usr/local/bin/subl"
-
-chmod +x "/usr/local/bin/subl"
-echo "${SHORTCUT}" > "/usr/share/applications/sublime-text-3.desktop"
+- Brackets
+- Sublime Text
+- IntelliJ
+- LightTable
 
 
 
