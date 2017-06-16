@@ -75,8 +75,9 @@ sudo dnf install -y fuse-exfat
 sudo dnf copr enable heikoada/terminix
 sudo dnf install -y tilix
 #sudo dnf install -y terminix gnome-terminal-nautilus
-
-
+sudo pip install colorama
+wget https://github.com/mbusb/multibootusb/releases/download/v8.8.0/multibootusb-8.8.0-1.noarch.rpm
+sudo rpm -i 
 
 
 # Codecs & Multimedia
