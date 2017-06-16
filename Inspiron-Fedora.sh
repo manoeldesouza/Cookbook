@@ -105,11 +105,33 @@ sudo dnf groupinstall 'Development Tools'
 sudo dnf groupinstall 'C Development Tools and Libraries'
 
 
+# Python global setup
+# -----------------------
+sudo dnf install python-virtualenv python2-virtualenv
+sudo pip install psutil
+sudo pip install django
+
+
 
 # MySQL toolset
 # -----------------------
 #	https://www.if-not-true-then-false.com/2010/install-mysql-on-fedora-centos-red-hat-rhel/
 #	https://support.rackspace.com/how-to/mysql-resetting-a-lost-mysql-root-password/
+sudo dnf install -y https://dev.mysql.com/get/mysql57-community-release-fc25-9.noarch.rpm
+sudo dnf install -y mysql-community-server
+sudo systemctl start mysqld.service 
+sudo systemctl enable mysqld.service
+grep 'A temporary password is generated for root@localhost' /var/log/mysqld.log |tail -1
+/usr/bin/mysql_secure_installation
+mysql -u root -p
+	CREATE DATABASE umbrella;
+	CREATE USER 'manoel'@'127.0.0.1' IDENTIFIED BY 'holyghost';
+	GRANT ALL ON umbrella.* TO 'manoel'@'127.0.0.1';
+	FLUSH PRIVILEGES;
+sudo firewall-cmd --permanent --zone=public --add-service=mysql
+sudo systemctl restart firewalld.service
+
+
 sudo dnf install MySQL-python
 sudo dnf install python-devel python3-devel mysql-devel MySQL-python MySQL-python3 redhat-rpm-config
 sudo dnf install -y https://dev.mysql.com/get/mysql57-community-release-fc25-10.noarch.rpm
