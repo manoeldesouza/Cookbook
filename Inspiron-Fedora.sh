@@ -108,9 +108,10 @@ sudo dnf groupinstall 'C Development Tools and Libraries'
 
 # Python global setup
 # -----------------------
-sudo dnf install python-virtualenv python2-virtualenv
+sudo dnf install python-virtualenv python2-virtualenv python-tools
 sudo pip install psutil
 sudo pip install django
+sudo pip install deap
 
 
 
