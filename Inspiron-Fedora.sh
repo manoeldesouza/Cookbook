@@ -27,7 +27,7 @@ https://fedoramagazine.org/getting-started-i3-window-manager/
 # Cookbook download
 # -----------------------
 cd ~/Downloads
-git clone hhtps://github.com/manoeldesouza/cookbook
+git clone https://github.com/manoeldesouza/cookbook
 
 
 
@@ -35,11 +35,12 @@ git clone hhtps://github.com/manoeldesouza/cookbook
 # -----------------------
 sudo dnf install -y deltarpm
 sudo dnf install -y nano
-sudo dnf install -y yumex-dnf
-sudo dnf install -y blivet-gui
-
 sudo nano /etc/dnf/dnf.conf
- deltarpm=1
+deltarpm=1
+sudo dnf install -y gnome-tweak-tool
+sudo dnf install -y yumex-dnf blivet-gui
+
+
 
 
 
@@ -67,10 +68,9 @@ sudo dnf update
 
 # Core Utilities Management
 # -----------------------
-sudo dnf install -y gnome-tweak-tool
 sudo dnf install -y p7zip p7zip-plugins lzip cabextract unrar unzip
 sudo dnf install -y mc tmux bc
-sudo dnf install -y fuse-exfat
+sudo dnf install -y fuse-exfat gparted
 
 sudo dnf copr enable heikoada/terminix
 sudo dnf install -y tilix
@@ -108,10 +108,14 @@ sudo dnf groupinstall 'C Development Tools and Libraries'
 
 # Python global setup
 # -----------------------
-sudo dnf install python-virtualenv python2-virtualenv python-tools
+sudo dnf install python-virtualenv python2-virtualenv python-tools pandoc
 sudo pip install psutil
 sudo pip install django
 sudo pip install deap
+
+sudo dnf -y install texlive texlive-latex texlive-xetex texlive-collection-latex texlive-collection-latexrecommended texlive-xetex-def texlive-collection-xetex texlive-adjustbox texlive-upquote
+
+sudo dnf -y install texlive-collection-latexextra
 
 
 
@@ -119,7 +123,7 @@ sudo pip install deap
 # -----------------------
 #	https://www.if-not-true-then-false.com/2010/install-mysql-on-fedora-centos-red-hat-rhel/
 #	https://support.rackspace.com/how-to/mysql-resetting-a-lost-mysql-root-password/
-sudo dnf install -y https://dev.mysql.com/get/mysql57-community-release-fc25-9.noarch.rpm
+sudo dnf install -y https://dev.mysql.com/get/mysql57-community-release-fc25-10.noarch.rpm
 sudo dnf install -y mysql-community-server
 sudo systemctl start mysqld.service 
 sudo systemctl enable mysqld.service
@@ -127,16 +131,16 @@ grep 'A temporary password is generated for root@localhost' /var/log/mysqld.log 
 /usr/bin/mysql_secure_installation
 mysql -u root -p
 	CREATE DATABASE umbrella;
-	CREATE USER 'manoel'@'127.0.0.1' IDENTIFIED BY 'holyghost';
+	CREATE USER 'manoel'@'127.0.0.1' IDENTIFIED BY 'Holy@2017';
 	GRANT ALL ON umbrella.* TO 'manoel'@'127.0.0.1';
 	FLUSH PRIVILEGES;
 sudo firewall-cmd --permanent --zone=public --add-service=mysql
 sudo systemctl restart firewalld.service
 
 
-sudo dnf install MySQL-python
-sudo dnf install python-devel python3-devel mysql-devel MySQL-python MySQL-python3 redhat-rpm-config
-sudo dnf install -y https://dev.mysql.com/get/mysql57-community-release-fc25-10.noarch.rpm
+sudo dnf install -y MySQL-python
+sudo dnf install -y python-devel python3-devel mysql-devel MySQL-python MySQL-python3 redhat-rpm-config
+
 sudo dnf install -y mysql-workbench
 
 
@@ -157,7 +161,7 @@ sudo dnf install -y perl-Switch
 
 # Desktop customization
 # -----------------------
-sudo dnf install -y gnome-tweak-tool dconf-editor gtk3-devel
+sudo dnf install -y dconf-editor gtk3-devel
 
 sudo dnf config-manager --add-repo http://download.opensuse.org/repositories/home:snwh:moka/Fedora_25/home:snwh:moka.repo
 sudo dnf install -y moka-icon-theme
@@ -239,12 +243,14 @@ sudo dnf config-manager --add-repo https://copr.fedorainfracloud.org/coprs/heiko
 
 sudo dnf install -y nautilus-dropbox python-gpgme
 sudo dnf install -y gimp gnome-multi-writer simple-scan youtube-dl geany inkscape stellarium cheese scribus blender shotwell digikam dia cups-pdf evolution bluefish darktable gnome-music conky conky-manager filezilla epiphany geary eog gparted octave entangle brasero
-sudo dnf install -y gradio
+sudo dnf install -y gradio brackets
 
 
 wget http://kdl.cc.ksosoft.com/wps-community/download/a21/wps-office-10.1.0.5672-1.a21.i686.rpm
 sudo dnf install -y wps-office*.rpm
-sudo rpm -i https://downloads.sourceforge.net/project/mscorefonts2/rpms/msttcore-fonts-installer-2.6-1.noarch.rpm
+wget https://downloads.sourceforge.net/project/mscorefonts2/rpms/msttcore-fonts-installer-2.6-1.noarch.rpm
+sudo dnf install -y msttcore-fonts*.rpm
+
 
 sudo mkdir -p /usr/share/fonts/wps-office
 cd /usr/share/fonts/wps-office
@@ -264,7 +270,7 @@ sudo dnf update
 sudo dnf install -y binutils gcc make patch libgomp glibc-headers glibc-devel kernel-headers kernel-devel dkms
 sudo dnf install -y VirtualBox-5.1
 sudo /usr/lib/virtualbox/vboxdrv.sh setup
-usermod -a -G vboxusers `id -un`
+sudo usermod -a -G vboxusers `id -un`
 cd ~/Downloads
 
 
@@ -293,7 +299,8 @@ sudo chown -R manoel:manoel /usr/local/MATLAB
 
 sudo ln -s /usr/local/MATLAB/R2016b/bin/matlab /usr/local/bin
 sudo curl https://upload.wikimedia.org/wikipedia/commons/2/21/Matlab_Logo.png -o /usr/share/icons/matlab.png
-sudo echo '
+sudo nano /usr/share/applications/matlab.desktop
+'
 #!/usr/bin/env xdg-open
 [Desktop Entry]
 Type=Application
@@ -304,7 +311,7 @@ Exec=matlab -desktop
 Categories=Development;
 MimeType=text/x-matlab;
 StartupWMClass=MATLAB R2016b - academic use
-' >  /usr/share/applications/matlab.desktop
+' >  
 
 
 
@@ -314,17 +321,19 @@ sudo dnf install -y gcc-fortran
 cd ~/Downloads
 
 sudo curl https://upload.wikimedia.org/wikipedia/en/c/cd/Anaconda_Logo.png -o /usr/share/icons/anaconda.png
-sudo echo '
+sudo nano /usr/share/applications/anaconda.desktop
+'
 #!/usr/bin/env xdg-open
 [Desktop Entry]
 Type=Application
 Icon=/usr/share/icons/anaconda.png
 Name=Anaconda Navigator
 Comment=Anaconda Navigator
-Exec=anaconda-navigator
+Exec=/home/manoel/anaconda3/bin/anaconda-navigator
 Categories=Development;
 MimeType=text/x-anaconda;
-' >  /usr/share/applications/anaconda.desktop
+'
+
 
 #conda install conda-build
 conda install -c r r-essentials
