@@ -68,7 +68,7 @@ sudo dnf update
 
 # Core Utilities Management
 # -----------------------
-sudo dnf install -y p7zip p7zip-plugins lzip cabextract unrar unzip
+sudo dnf install -y p7zip p7zip-plugins lzip cabextract unrar unzip ddrescue
 sudo dnf install -y mc tmux bc
 sudo dnf install -y fuse-exfat gparted
 
@@ -108,10 +108,18 @@ sudo dnf groupinstall 'C Development Tools and Libraries'
 
 # Python global setup
 # -----------------------
-sudo dnf install python-virtualenv python2-virtualenv python-tools pandoc
+sudo dnf install python-virtualenv python2-virtualenv python-tools pandoc cloud-utils-growpart
 sudo pip install psutil
 sudo pip install django
 sudo pip install deap
+sudo pip install python-pptx
+sudo pip install dash
+pip install dash==0.17.7  # The core dash backend
+pip install dash-renderer==0.7.3  # The dash front-end
+pip install dash-html-components==0.6.2  # HTML components
+pip install dash-core-components==0.5.1  # Supercharged components
+pip install plotly==2.0.11  # Plotly graphing library used in examples
+
 
 sudo dnf -y install texlive texlive-latex texlive-xetex texlive-collection-latex texlive-collection-latexrecommended texlive-xetex-def texlive-collection-xetex texlive-adjustbox texlive-upquote
 
@@ -175,6 +183,19 @@ git clone https://github.com/horst3180/arc-icon-theme --depth 1 && cd arc-icon-t
 sudo make install
 cd ..
 
+
+sudo dnf copr enable dirkdavidis/papirus-icon-theme
+sudo dnf install papirus-icon-theme
+
+
+sudo dnf copr enable heikoada/gtk-themes
+sudo dnf copr enable tcg/themes 
+sudo dnf install flat-plat-theme
+
+sudo dnf copr enable nonamedotc/gtk3-themes
+sudo dnf install adapta
+
+
 sudo dnf install -y gnome-shell-extension-media-player-indicator gnome-shell-extension-openweather
 
 sudo dnf install -y gnome-shell-extension-topicons-plus
@@ -190,6 +211,8 @@ git checkout 1.9
 sudo cp -r pixel-saver@deadalnix.me -t /usr/share/gnome-shell/extensions
 gnome-shell-extension-tool -e pixel-saver@deadalnix.me
 cd ..
+
+sudo dnf install -y gnome-shell-extension-auto-move-windows gnome-shell-extension-freon gnome-shell-extension-drive-menu gnome-shell-extension-simple-dock
 
 sudo dnf install -y f25-backgrounds-extras-gnome f24-backgrounds-gnome f24-backgrounds-extras-gnome f23-backgrounds-gnome f23-backgrounds-extras-gnome f22-backgrounds-gnome f22-backgrounds-extras-gnome f21-backgrounds-gnome f21-backgrounds-extras-gnome
 
@@ -241,7 +264,7 @@ cd ~/Downloads
 sudo dnf config-manager --add-repo https://copr.fedorainfracloud.org/coprs/mosquito/brackets/repo/fedora-25/mosquito-brackets-fedora-25.repo
 sudo dnf config-manager --add-repo https://copr.fedorainfracloud.org/coprs/heikoada/gradio/repo/fedora-25/heikoada-gradio-fedora-25.repo
 
-sudo dnf install -y nautilus-dropbox python-gpgme
+sudo dnf install -y nautilus-dropbox python-gpgme simplescreenrecorder
 sudo dnf install -y gimp gnome-multi-writer simple-scan youtube-dl geany inkscape stellarium cheese scribus blender shotwell digikam dia cups-pdf evolution bluefish darktable gnome-music conky conky-manager filezilla epiphany geary eog gparted octave entangle brasero
 sudo dnf install -y gradio brackets
 
