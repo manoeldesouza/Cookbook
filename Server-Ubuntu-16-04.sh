@@ -5,8 +5,8 @@ echo "# About:                                                                  
 echo "# ======                                                                                                   #"
 echo "# Author: Manoel de Souza                                                                                  #"
 echo "# Email: msouza.rj@gmail.com                                                                               #"
-echo "# Device: Turbina (HP ML 110 Gen 9)                                                                        #"
-echo "# OS: Ubuntu Server 16.04.1                                                                                #"
+echo "# Device: Turbina (HP ML 110 Gen 9) virtualized under Promo 5.0                                            #"
+echo "# OS: Ubuntu Server 16.04.2                                                                                #"
 echo "# Date: 16-Oct-2016                                                                                        #"
 echo "#                                                                                                          #"
 echo "############################################################################################################"
@@ -25,7 +25,6 @@ qm set 100 -virtio1 /dev/disk/by-id/ata-ST2000DM001-1CH164_W1E5GSTZ
 qm set 100 -virtio2 /dev/disk/by-id/ata-ST2000DM001-1ER164_Z4Z4NWA7
 qm set 100 -virtio3 /dev/disk/by-id/ata-ST2000DM006-2DM164_Z560B3K5
 qm set 100 -virtio4 /dev/disk/by-id/ata-ST2000DM006-2DM164_Z4Z64R28
-qm set 100 -virtio5 /dev/disk/by-id/ata-KINGSTON_SKC300S37A240G_50026B723501B942
 qm set 100 -virtio6 /dev/disk/by-id/ata-MB1000GCWCV_Z1W4HCWD
 
 
@@ -41,6 +40,12 @@ sudo echo "1. Load Super User..."
 sudo echo "2. Install basic packages..."
 
 sudo apt-get update && sudo apt-get upgrade -y
+sudo apt-get install -y zfs
+sudo apt-get install -y mc unace p7zip-rar sharutils arj rar unrar zip unzip lunzip lzip
+sudo apt-get install -y youtube-dl
+sudo apt-get install -y shellinabox
+
+
 sudo apt-get install -y mc make linux-image-extra-$(uname -r) zfs unace p7zip-rar sharutils arj rar unrar zip unzip lunzip lzip python-spice-client-gtk youtube-dl fuse exfat-fuse exfat-utils ntp traceroute liblinux-inotify2-perl perl-doc libswitch-perl qemu-utils virt-viewer gir1.2-spice-client-gtk-3.0 hddtemp libdbd-mysql-perl clamav clamav-daemon shellinabox
 
 sudo tasksel install server openssh-server virt-host samba-server lamp-server
@@ -113,8 +118,8 @@ sudo nano /etc/fstab
     /dev/disk/by-id/ata-MB1000GCWCV_Z1W4HCWD-part1          /media/MyBackup         auto            defaults        0       0  
     /dev/disk/by-id/ata-MB1000GCWCV_Z1W4HCWD-part1          /media/MyBackup         auto            defaults        0       0  
 
-	/dev/vdf1	/media/MyDownloads		ext4	defaults	0	0
-	/dev/vdg1	/media/MyBackup			ext4	defaults	0	0
+	/dev/vda1	/media/Downloads		ext4	defaults	0	0
+	/dev/vdf1	/media/Backup			ext4	defaults	0	0
 
 
 #====================================================================================================================

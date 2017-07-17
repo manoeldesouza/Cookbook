@@ -70,7 +70,7 @@ sudo dnf update
 # -----------------------
 sudo dnf install -y p7zip p7zip-plugins lzip cabextract unrar unzip ddrescue
 sudo dnf install -y mc tmux bc
-sudo dnf install -y fuse-exfat gparted
+sudo dnf install -y fuse-exfat gparted glances uget
 
 sudo dnf copr enable heikoada/terminix
 sudo dnf install -y tilix
@@ -299,6 +299,8 @@ cd ~/Downloads
 
 
 # Virtual Manager
+#	https://www.vivaolinux.com.br/dica/Virt-Manager-no-Fedora-25
+#	https://fedoraproject.org/wiki/Getting_started_with_virtualization
 # -----------------------
 sudo dnf group install with-optional virtualization
 sudo systemctl start libvirtd
